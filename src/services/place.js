@@ -20,6 +20,14 @@ const Place = {
     })
   },
 
+  nearbySearch: (request, callback) => {
+    Place.placeService.nearbySearch(request, (places, status) => {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        callback(places)
+      }
+    })
+  },
+
   radarSearch: (request, callback) => {
     Place.placeService.textSearch(request, (places, status) => {
       if (status == google.maps.places.PlacesServiceStatus.OK) {

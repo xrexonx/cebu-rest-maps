@@ -8,14 +8,20 @@ const SHAPE_OPTIONS = {
 
 const Drawing = {
 
+  map: null,
   placeService: null,
+  drawingManager: null,
+  circle: null,
+  rectangle: null,
+  overlay: null,
 
   init: (map) => {
 
+    Drawing.map = map
     Drawing.placeService = new google.maps.places.PlacesService(map)
 
-    const circleOptions = new google.maps.Circle(SHAPE_OPTIONS)
-    const rectangleOptions = new google.maps.Rectangle(SHAPE_OPTIONS)
+    Drawing.circle = new google.maps.Circle(SHAPE_OPTIONS)
+    Drawing.rectangle = new google.maps.Rectangle(SHAPE_OPTIONS)
 
     const drawingManager = new google.maps.drawing.DrawingManager({
       drawingMode: google.maps.drawing.OverlayType.MARKER,
@@ -24,19 +30,24 @@ const Drawing = {
         position: google.maps.ControlPosition.TOP_CENTER,
         drawingModes: ['circle', 'rectangle']
       },
-      circleOptions: circleOptions,
-      rectangleOptions: rectangleOptions
+      circleOptions: Drawing.circle,
+      rectangleOptions: Drawing.rectangle
     })
+
+    Drawing.drawingManager = drawingManager
 
     // drawingManager.setMap(map)
     google.maps.event.addListener(drawingManager, 'overlaycomplete', event => {
-      if (event.type == 'circle') Drawing.onCompleteCircle(event.overlay)
-      if (event.type == 'rectangle') Drawing.onCompleteRectangle(event.overlay)
+      Drawing.overlay = event.overlay
+      if (event.type == 'circle') Drawing.onCompleteCircle(Drawing.overlay)
+      if (event.type == 'rectangle') Drawing.onCompleteRectangle(Drawing.overlay)
     })
+
+    const drawingToolPanel = document.getElementById('drawingToolPanel')
+    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(drawingToolPanel)
   },
 
   onCompleteCircle: overlay => {
-    console.log('overlay', overlay)
     const center = new google.maps.LatLng(
       overlay.getCenter().lat(),
       overlay.getCenter().lng()
@@ -44,29 +55,41 @@ const Drawing = {
     const request = {
       location: center,
       radius: overlay.getRadius(),
-      query: 'restaurants Cebu'
+      type: ['restaurant']
     }
-    Place.textSearch(request, Drawing.overCallBack)
+    Place.nearbySearch(request, Drawing.overlayCallBack)
   },
 
   onCompleteRectangle: overlay => {
     const bounce = overlay.getBounds()
     const request = {
-      bounds: map.getBounds(),
-      type: 'restaurants',
-      keyword: 'restaurants Cebu'
+      bounds: bounce,
+      type: 'restaurant',
+      keyword: 'restaurant cebu'
     }
     // radarSearch will be deprecated soon
-    Place.radarSearch(request, Drawing.overCallBack)
+    Place.radarSearch(request, Drawing.overlayCallBack)
   },
 
-  overCallBack: restaurants => {
+  overlayCallBack: restaurants => {
+    console.log('restaurants', restaurants)
     let list = ''
+    Marker.reset()
     restaurants.forEach(restaurant => {
       Marker.create(Place.map, restaurant)
       list = `${list}${Html.createListItem(restaurant)}`
     })
     Html.renderRestaurantList(list)
+  },
+
+  enable: () => {
+    Drawing.drawingManager.setMap(Drawing.map)
+  },
+
+  disable: () => {
+    Marker.reset()
+    Drawing.overlay.setMap(null)
+    Drawing.drawingManager.setMap(null)
   }
 
 }

@@ -22,6 +22,14 @@ var Place = {
     });
   },
 
+  nearbySearch: function nearbySearch(request, callback) {
+    Place.placeService.nearbySearch(request, function (places, status) {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        callback(places);
+      }
+    });
+  },
+
   radarSearch: function radarSearch(request, callback) {
     Place.placeService.textSearch(request, function (places, status) {
       if (status == google.maps.places.PlacesServiceStatus.OK) {

@@ -1,27 +1,33 @@
 // export default Html = {
 const Html = {
 
+  getAddress: data => {
+    return data.formatted_address || data.vicinity
+  },
+
   buildInfoWindow: data => {
+    const address = Html.getAddress(data)
     return `<div>
      <p>${data.name}</p>
      <span class="mdl-list__item-sub-title">
-       ${data.formatted_address}
+       ${address}
      </span>
     </div>`
   },
 
   createListItem: data => {
+    const address = Html.getAddress(data)
     return `
     <li class="mdl-list__item mdl-list__item--two-line">
       <span class="mdl-list__item-primary-content"
       onClick=Place.getPlaceDetails("${data.place_id}")>
         <span>${data.name}</span>
-        <span class="mdl-list__item-sub-title">${data.formatted_address}</span>
+        <span class="mdl-list__item-sub-title">${address}</span>
       </span>
       <span class="mdl-list__item-secondary-content">
-        <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"
+        <button id="${data.place_id}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"
           onClick=Directions.get(${JSON.stringify(data.geometry.location)})>
-          <i id="${data.place_id}" class="material-icons mdl-color-text--blue">directions</i>
+          <i class="icon material-icons mdl-color-text--blue">directions</i>
           <div class="mdl-tooltip" data-mdl-for="${data.place_id}">Directions</div>
         </button>
       </span>
@@ -30,22 +36,27 @@ const Html = {
 
   renderRestaurantList: lists => {
     const listDiv = document.getElementById('restaurantList')
+    const recommendedDiv = document.getElementById('recommendedDiv')
     const ul = document.createElement('ul')
     ul.className = 'mdl-list'
     ul.innerHTML = lists
     listDiv.innerHTML = ""
     listDiv.appendChild(ul)
+    recommendedDiv.appendChild(`
+      <span class="mdl-badge" data-badge="${data.length}">
+        Recommended Lists
+      </span>`)
   },
 
   buildDetailsPanel: data => {
-    console.log('data', data)
+    const address = Html.getAddress(data)
     const detailPanelDiv = document.getElementById('detailPanel')
     const detailPanel = `
       <div class="mdl-card__title">
         <h2 class="mdl-card__title-text">${data.name}</h2>
       </div>
       <div class="mdl-card__supporting-text">
-        ${data.vicinity}
+        ${address}
       </div>
       <div class="mdl-card__actions mdl-card--border">
       <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"

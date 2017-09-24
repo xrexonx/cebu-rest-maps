@@ -10,14 +10,20 @@ var SHAPE_OPTIONS = {
 
 var Drawing = {
 
+  map: null,
   placeService: null,
+  drawingManager: null,
+  circle: null,
+  rectangle: null,
+  overlay: null,
 
   init: function init(map) {
 
+    Drawing.map = map;
     Drawing.placeService = new google.maps.places.PlacesService(map);
 
-    var circleOptions = new google.maps.Circle(SHAPE_OPTIONS);
-    var rectangleOptions = new google.maps.Rectangle(SHAPE_OPTIONS);
+    Drawing.circle = new google.maps.Circle(SHAPE_OPTIONS);
+    Drawing.rectangle = new google.maps.Rectangle(SHAPE_OPTIONS);
 
     var drawingManager = new google.maps.drawing.DrawingManager({
       drawingMode: google.maps.drawing.OverlayType.MARKER,
@@ -26,45 +32,62 @@ var Drawing = {
         position: google.maps.ControlPosition.TOP_CENTER,
         drawingModes: ['circle', 'rectangle']
       },
-      circleOptions: circleOptions,
-      rectangleOptions: rectangleOptions
+      circleOptions: Drawing.circle,
+      rectangleOptions: Drawing.rectangle
     });
+
+    Drawing.drawingManager = drawingManager;
 
     // drawingManager.setMap(map)
     google.maps.event.addListener(drawingManager, 'overlaycomplete', function (event) {
-      if (event.type == 'circle') Drawing.onCompleteCircle(event.overlay);
-      if (event.type == 'rectangle') Drawing.onCompleteRectangle(event.overlay);
+      Drawing.overlay = event.overlay;
+      if (event.type == 'circle') Drawing.onCompleteCircle(Drawing.overlay);
+      if (event.type == 'rectangle') Drawing.onCompleteRectangle(Drawing.overlay);
     });
+
+    var drawingToolPanel = document.getElementById('drawingToolPanel');
+    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(drawingToolPanel);
   },
 
   onCompleteCircle: function onCompleteCircle(overlay) {
-    console.log('overlay', overlay);
     var center = new google.maps.LatLng(overlay.getCenter().lat(), overlay.getCenter().lng());
     var request = {
       location: center,
       radius: overlay.getRadius(),
-      query: 'restaurants Cebu'
+      type: ['restaurant']
     };
-    Place.textSearch(request, Drawing.overCallBack);
+    Place.nearbySearch(request, Drawing.overlayCallBack);
   },
 
   onCompleteRectangle: function onCompleteRectangle(overlay) {
     var bounce = overlay.getBounds();
     var request = {
-      bounds: map.getBounds(),
-      type: 'restaurants',
-      keyword: 'restaurants Cebu'
+      bounds: bounce,
+      type: 'restaurant',
+      keyword: 'restaurant cebu'
       // radarSearch will be deprecated soon
-    };Place.radarSearch(request, Drawing.overCallBack);
+    };Place.radarSearch(request, Drawing.overlayCallBack);
   },
 
-  overCallBack: function overCallBack(restaurants) {
+  overlayCallBack: function overlayCallBack(restaurants) {
+    console.log('restaurants', restaurants);
     var list = '';
+    Marker.reset();
     restaurants.forEach(function (restaurant) {
       Marker.create(Place.map, restaurant);
       list = '' + list + Html.createListItem(restaurant);
     });
     Html.renderRestaurantList(list);
+  },
+
+  enable: function enable() {
+    Drawing.drawingManager.setMap(Drawing.map);
+  },
+
+  disable: function disable() {
+    Marker.reset();
+    Drawing.overlay.setMap(null);
+    Drawing.drawingManager.setMap(null);
   }
 
 };
