@@ -67,7 +67,6 @@ const Html = {
   },
 
   buildDetailsPanel: data => {
-    console.log('data', data)
     const address = Html.getAddress(data)
     const placeReviews = Html.buildReview(data.reviews)
     const detailPanelDiv = document.getElementById('detailPanel')

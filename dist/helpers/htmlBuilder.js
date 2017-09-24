@@ -36,7 +36,6 @@ var Html = {
   },
 
   buildDetailsPanel: function buildDetailsPanel(data) {
-    console.log('data', data);
     var address = Html.getAddress(data);
     var placeReviews = Html.buildReview(data.reviews);
     var detailPanelDiv = document.getElementById('detailPanel');
