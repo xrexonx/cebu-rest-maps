@@ -53,6 +53,8 @@ var Place = {
       Marker.create(Place.map, place);
       Html.buildDetailsPanel(place);
       Html.showDetailsPanel();
+      Place.map.setCenter(place.geometry.location);
+      Place.map.setZoom(18);
     };
     // Html.showSpinner()
     Place.getDetails(placeId, _callback);

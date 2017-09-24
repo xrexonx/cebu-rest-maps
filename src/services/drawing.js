@@ -87,9 +87,9 @@ const Drawing = {
   },
 
   disable: () => {
-    Marker.reset()
-    Drawing.overlay.setMap(null)
+    // Marker.reset()
     Drawing.drawingManager.setMap(null)
+    Drawing.overlay.setMap(null)
   }
 
 }
