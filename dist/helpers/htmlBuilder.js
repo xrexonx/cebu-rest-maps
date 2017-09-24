@@ -19,13 +19,11 @@ var Html = {
 
   renderRestaurantList: function renderRestaurantList(lists) {
     var listDiv = document.getElementById('restaurantList');
-    var recommendedDiv = document.getElementById('recommendedDiv');
     var ul = document.createElement('ul');
     ul.className = 'mdl-list';
     ul.innerHTML = lists;
     listDiv.innerHTML = "";
     listDiv.appendChild(ul);
-    recommendedDiv.appendChild('\n      <span class="mdl-badge" data-badge="' + data.length + '">\n        Recommended Lists\n      </span>');
   },
 
   buildDetailsPanel: function buildDetailsPanel(data) {
