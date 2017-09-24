@@ -17,6 +17,15 @@ html, body {
   overflow-y: scroll;
 }
 
+#reviewPanel {
+  height: 320px;
+  overflow-y: scroll;
+}
+
+.mdl-list__item {
+  cursor: pointer !important;
+}
+
 .mdh-expandable-search {
   align-items: center;
 }
