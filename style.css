@@ -8,6 +8,10 @@ html, body {
     width: 100%
 }
 
+#rightPanel {
+  height: 590px;
+}
+
 #restaurantList {
   height: 450px;
   overflow-y: scroll;
