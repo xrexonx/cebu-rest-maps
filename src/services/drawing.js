@@ -42,9 +42,6 @@ const Drawing = {
       if (event.type == 'circle') Drawing.onCompleteCircle(Drawing.overlay)
       if (event.type == 'rectangle') Drawing.onCompleteRectangle(Drawing.overlay)
     })
-
-    const drawingToolPanel = document.getElementById('drawingToolPanel')
-    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(drawingToolPanel)
   },
 
   onCompleteCircle: overlay => {

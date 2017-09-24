@@ -45,8 +45,8 @@ var Drawing = {
       if (event.type == 'rectangle') Drawing.onCompleteRectangle(Drawing.overlay);
     });
 
-    var drawingToolPanel = document.getElementById('drawingToolPanel');
-    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(drawingToolPanel);
+    // const drawingToolPanel = document.getElementById('drawingToolPanel')
+    // map.controls[google.maps.ControlPosition.TOP_RIGHT].push(drawingToolPanel)
   },
 
   onCompleteCircle: function onCompleteCircle(overlay) {
