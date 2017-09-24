@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cebu Restaurants Maps</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css" media="screen">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+</head>
+<body>
+  <div class="content-grid mdl-grid">
+      <div id="leftpanel" class="mdl-shadow--2dp mdl-color--white mdl-grid mdl-cell mdl-cell--7-col mdl-cell--8-col-tablet">
+        <div id="map"></div>
+      </div>
+      <div id="rightPanel" class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--5-col mdl-cell--8-col-tablet">
+        <div id="detailPanel"></div>
+        <div id="listPanel">
+          <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">Cebu Restaurants</h2>
+          </div>
+          <div class="mdl-card__supporting-text">
+            Explore curated lists of top restaurants, cafes, pubs, and bars in and around Cebu, based on trends
+          </div>
+          <div class="mdl-card__menu">
+            <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+              <i class="material-icons">share</i>
+            </button>
+          </div>
+          <div id="search-panel" class="mdh-expandable-search mdl-cell mdl-cell--12-col mdl-cell--hide-phone">
+            <i class="material-icons">search</i>
+            <form action="#">
+              <input id="search-input" type="text" placeholder="Search Restaurants....">
+            </form>
+          </div>
+          <div class="mdl-layout-spacer mdl-cell--hide-tablet mdl-cell--hide-desktop"></div>
+          <button class="mdh-toggle-search mdl-button mdl-js-button mdl-button--icon mdl-cell--hide-tablet mdl-cell--hide-desktop">
+            <i class="material-icons">search</i>
+          </button>
+          <div id="restaurantList"></div>
+        </div>
+        <!-- <div id="spinner" class="mdl-spinner mdl-js-spinner is-active"></div> -->
+      </div>
+  </div>
+<script src="dist/helpers/htmlBuilder.js"></script>
+<script src="dist/services/marker.js"></script>
+<script src="dist/services/searchbox.js"></script>
+<script src="dist/services/place.js"></script>
+<script src="dist/services/drawing.js"></script>
+<script src="dist/services/directions.js"></script>
+<script src="dist/services/map.js"></script>
+<script src="dist/index.js"></script>
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXI92ZH6gRINBe_fj1kLXHBUdTfBr0Sww&libraries=places,drawing&callback=initialize&region=PH">
+</script>
+</body>
+</html>
