@@ -36,16 +36,11 @@ const Html = {
 
   renderRestaurantList: lists => {
     const listDiv = document.getElementById('restaurantList')
-    const recommendedDiv = document.getElementById('recommendedDiv')
     const ul = document.createElement('ul')
     ul.className = 'mdl-list'
     ul.innerHTML = lists
     listDiv.innerHTML = ""
     listDiv.appendChild(ul)
-    recommendedDiv.appendChild(`
-      <span class="mdl-badge" data-badge="${data.length}">
-        Recommended Lists
-      </span>`)
   },
 
   buildDetailsPanel: data => {
