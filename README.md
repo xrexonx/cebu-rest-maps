@@ -4,6 +4,7 @@ Links on the description
 ## Technology involved
   * [Native es6 Javascript](https://developer.mozilla.org/bm/docs/Web/JavaScript)
   * [Google Maps Javascript API](https://developers.google.com/maps/documentation/javascript/)
+  * [Material Design Lite](https://getmdl.io/)
   * [Babel](https://babeljs.io/)
   * [RollupJS](https://rollupjs.org/)
 
