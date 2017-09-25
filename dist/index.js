@@ -2,14 +2,12 @@
 
 // import MapService from './map'
 
-function initialize() {
-  MapService.initMap();
-}
-
-function enableDrawingTool() {
-  Drawing.enable();
-}
-
-function disableDrawingTool() {
-  Drawing.disable();
-}
+var initialize = function initialize() {
+  return MapService.initMap();
+};
+var enableDrawingTool = function enableDrawingTool() {
+  return Drawing.enable();
+};
+var disableDrawingTool = function disableDrawingTool() {
+  return Drawing.disable();
+};
