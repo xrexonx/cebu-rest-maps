@@ -11,8 +11,9 @@ Links on the description
 ## TODO
 * Improve UI
 * Make module bundler (rollup) works
-* Refactoring........
+* Add more details on place/restaurants details panel
 * Dig in more into Google Maps JS/Web Service API
+* Refactoring........
 
 
 ### Thanks
