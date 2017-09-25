@@ -9,10 +9,13 @@ Links on the description
 
 
 ## TODO
+* Fix not working current location
 * Improve UI
-* Make module bundler (rollup) works
+* Fix rollup module bundler (implement import export) - might use webpack instead
 * Add more details on place/restaurants details panel
 * Dig in more into Google Maps JS/Web Service API
+* Add loader/spinner
+* Add error handling
 * Refactoring........
 
 

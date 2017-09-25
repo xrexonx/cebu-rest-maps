@@ -14,35 +14,33 @@ var Place = {
     Place.getDefaultRestaurant();
   },
 
+  _handleCallBack: function _handleCallBack(place, status, callback) {
+    var statusOk = google.maps.places.PlacesServiceStatus.OK;
+    if (status === statusOk) callback(place);
+    // Add error handler...
+  },
+
   textSearch: function textSearch(request, callback) {
     Place.placeService.textSearch(request, function (places, status) {
-      if (status == google.maps.places.PlacesServiceStatus.OK) {
-        callback(places);
-      }
+      return Place._handleCallBack(places, status, callback);
     });
   },
 
   nearbySearch: function nearbySearch(request, callback) {
     Place.placeService.nearbySearch(request, function (places, status) {
-      if (status == google.maps.places.PlacesServiceStatus.OK) {
-        callback(places);
-      }
+      return Place._handleCallBack(places, status, callback);
     });
   },
 
   radarSearch: function radarSearch(request, callback) {
     Place.placeService.textSearch(request, function (places, status) {
-      if (status == google.maps.places.PlacesServiceStatus.OK) {
-        callback(places);
-      }
+      return Place._handleCallBack(places, status, callback);
     });
   },
 
   getDetails: function getDetails(placeId, callback) {
     Place.placeService.getDetails({ placeId: placeId }, function (place, status) {
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
-        callback(place);
-      }
+      return Place._handleCallBack(place, status, callback);
     });
   },
 

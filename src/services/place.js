@@ -12,36 +12,26 @@ const Place = {
     Place.getDefaultRestaurant()
   },
 
+  _handleCallBack: (place, status, callback) => {
+    const statusOk = google.maps.places.PlacesServiceStatus.OK
+    if (status === statusOk) callback(place)
+    // Add error handler...
+  },
+
   textSearch: (request, callback) => {
-    Place.placeService.textSearch(request, (places, status) => {
-      if (status == google.maps.places.PlacesServiceStatus.OK) {
-        callback(places)
-      }
-    })
+    Place.placeService.textSearch(request, (places, status) => Place._handleCallBack(places, status, callback))
   },
 
   nearbySearch: (request, callback) => {
-    Place.placeService.nearbySearch(request, (places, status) => {
-      if (status == google.maps.places.PlacesServiceStatus.OK) {
-        callback(places)
-      }
-    })
+    Place.placeService.nearbySearch(request, (places, status) => Place._handleCallBack(places, status, callback))
   },
 
   radarSearch: (request, callback) => {
-    Place.placeService.textSearch(request, (places, status) => {
-      if (status == google.maps.places.PlacesServiceStatus.OK) {
-        callback(places)
-      }
-    })
+    Place.placeService.textSearch(request, (places, status) => Place._handleCallBack(places, status, callback))
   },
 
   getDetails: (placeId, callback) => {
-    Place.placeService.getDetails({ placeId }, (place, status) => {
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
-        callback(place)
-      }
-    })
+    Place.placeService.getDetails({ placeId }, (place, status) => Place._handleCallBack(place, status, callback))
   },
 
   getPlaceDetails: placeId => {
