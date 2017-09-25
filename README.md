@@ -20,4 +20,4 @@ Links on the description
 
 
 ### Thanks
-[Rexon A. De los Reyes](http://xrexonx.github.io)
+~ [Rexon A. De los Reyes](http://xrexonx.github.io)
