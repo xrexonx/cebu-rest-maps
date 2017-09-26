@@ -15,6 +15,7 @@ const Drawing = {
   placeService: null,
   drawingManager: null,
   overlay: null,
+  shapes: [],
 
   init: (map) => {
 
@@ -39,7 +40,8 @@ const Drawing = {
     Drawing.drawingManager.setMap(map)
     google.maps.event.addListener(drawingManager, 'overlaycomplete', event => {
       Drawing.overlay = event.overlay
-      Drawing.onOverComplete(event.overlay)
+      Drawing.shapes.push(Drawing.overlay)
+      Drawing.onOverComplete(Drawing.overlay)
     })
   },
 
@@ -49,16 +51,12 @@ const Drawing = {
       type: 'restaurant',
       keyword: 'restaurant cebu'
     }
-    let service = new google.maps.places.PlacesService(Place.map)
-    service.radarSearch(request, (results) => {
-      // Render or show results count.
-      console.log('results', results.length)
+    const service = new google.maps.places.PlacesService(Place.map)
+    service.radarSearch(request, results => {
+      console.log('results', results.length) // TODO Render or show results count.
     })
   },
 
-
-  clearDrawing: () => {
-    Drawing.overlay.setMap(null)
-  }
+  clearDrawing: () => Drawing.shapes.map(overlay => overlay.setMap(null))
 
 }

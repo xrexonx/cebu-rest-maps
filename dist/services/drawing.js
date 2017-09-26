@@ -17,6 +17,7 @@ var Drawing = {
   placeService: null,
   drawingManager: null,
   overlay: null,
+  shapes: [],
 
   init: function init(map) {
 
@@ -41,7 +42,12 @@ var Drawing = {
     Drawing.drawingManager.setMap(map);
     google.maps.event.addListener(drawingManager, 'overlaycomplete', function (event) {
       Drawing.overlay = event.overlay;
-      Drawing.onOverComplete(event.overlay);
+      Drawing.shapes.push(Drawing.overlay);
+      Drawing.onOverComplete(Drawing.overlay);
+    });
+
+    google.maps.event.addListener(drawingManager, 'drawingmode_changed', function () {
+      Drawing.clearDrawing();
     });
   },
 
@@ -59,7 +65,9 @@ var Drawing = {
   },
 
   clearDrawing: function clearDrawing() {
-    Drawing.overlay.setMap(null);
+    return Drawing.shapes.map(function (overlay) {
+      return overlay.setMap(null);
+    });
   }
 
 };
