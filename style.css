@@ -16,14 +16,9 @@ html, body {
   height: 100vh;
 }
 
-#leftpanel {
-    height: 100vh;
-}
-
-#restaurantList {
-  height: 450px;
-  overflow-y: scroll;
-}
+/*#leftpanel {*/
+    /*height: 100vh;*/
+/*}*/
 
 #reviewPanel {
   height: 320px;

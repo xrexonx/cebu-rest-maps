@@ -17,7 +17,7 @@ var Html = {
   },
 
   renderCategoryList: function renderCategoryList(lists) {
-    var listDiv = document.getElementById('restaurantList');
+    var listDiv = document.getElementById('categoryList');
     var ul = document.createElement('ul');
     ul.className = 'mdl-list';
     ul.innerHTML = lists;

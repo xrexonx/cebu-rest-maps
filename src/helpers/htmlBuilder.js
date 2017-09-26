@@ -30,7 +30,7 @@ const Html = {
   },
 
   renderCategoryList: lists => {
-    const listDiv = document.getElementById('restaurantList')
+    const listDiv = document.getElementById('categoryList')
     const ul = document.createElement('ul')
     ul.className = 'mdl-list'
     ul.innerHTML = lists

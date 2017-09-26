@@ -1,3 +1,12 @@
+const category = [
+  'Burger',
+  'Bar',
+  'Cafe',
+  'Pizza',
+  'Lechon',
+  'Jollibee'
+]
+
 const Place = {
 
   map: null,
@@ -8,21 +17,39 @@ const Place = {
     Place.map = map
     Place.defaultLocation = location
     Place.placeService = new google.maps.places.PlacesService(map)
+    Place.renderRestaurants()
+  },
 
-    const category = [
-      'Burger',
-      'Bar',
-      'Cafe',
-      'Pizza',
-      'Lechon',
-      'Coffee shop'
-    ]
+  renderRestaurants: () => {
     let categoryList = ''
-    category.forEach(catName => {
+    category.map(catName => {
       categoryList = `${categoryList}${Html.createListItem(catName)}`
-      Place.getDefaultRestaurant(catName)
+      Place.getRestaurantByCategory(catName)
     })
     Html.renderCategoryList(categoryList)
+  },
+
+  getPlaceDetails: placeId => {
+    const _callback = place => {
+      Marker.reset()
+      Marker.add(Place.map, place)
+      Html.buildDetailsPanel(place)
+      Html.showDetailsPanel()
+      Place.map.setCenter(place.geometry.location)
+      Place.map.setZoom(18)
+    }
+    Place.getDetails(placeId, _callback)
+  },
+
+  getRestaurantByCategory: category => {
+    const _request = {
+      location: Place.defaultLocation,
+      radius: 10000,
+      type: 'restaurant',
+      query: `Cebu ${category}`
+    }
+    const _handleCallback = places => places.map(place => Marker.add(Place.map, place, category))
+    Place.textSearch(_request, _handleCallback)
   },
 
   _handleCallBack: (place, status, callback) => {
@@ -44,34 +71,5 @@ const Place = {
 
   getDetails: (placeId, callback) => {
     Place.placeService.getDetails({ placeId }, (place, status) => Place._handleCallBack(place, status, callback))
-  },
-
-  getPlaceDetails: placeId => {
-    const _callback = place => {
-      Marker.reset()
-      Marker.add(Place.map, place)
-      Html.buildDetailsPanel(place)
-      Html.showDetailsPanel()
-      Place.map.setCenter(place.geometry.location)
-      Place.map.setZoom(18)
-    }
-    Place.getDetails(placeId, _callback)
-  },
-
-  getDefaultRestaurant: category => {
-    const _request = {
-      location: Place.defaultLocation,
-      radius: 10000,
-      type: 'restaurant',
-      query: `Cebu ${category}`
-    }
-    const _handleCallback = places => {
-      places.forEach(place => {
-        Marker.add(Place.map, place, category)
-      })
-    }
-    Place.textSearch(_request, _handleCallback)
   }
-
-
 }

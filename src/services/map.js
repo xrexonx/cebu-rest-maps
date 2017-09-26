@@ -10,9 +10,7 @@ const MapService = {
         center: defaultLocation,
         zoom: 15
     })
-
     Drawing.init(map)
-    SearchBox.init(map)
     Place.init(map, defaultLocation)
     Directions.init(map, defaultLocation)
     MapService.getCurrentLocation()

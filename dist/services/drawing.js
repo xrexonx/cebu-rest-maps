@@ -38,11 +38,10 @@ var Drawing = {
 
     Drawing.drawingManager = drawingManager;
 
-    // drawingManager.setMap(map)
     google.maps.event.addListener(drawingManager, 'overlaycomplete', function (event) {
       Drawing.overlay = event.overlay;
-      if (event.type == 'circle') Drawing.onCompleteCircle(Drawing.overlay);
-      if (event.type == 'rectangle') Drawing.onCompleteRectangle(Drawing.overlay);
+      if (event.type === 'circle') Drawing.onCompleteCircle(Drawing.overlay);
+      if (event.type === 'rectangle') Drawing.onCompleteRectangle(Drawing.overlay);
     });
   },
 
@@ -66,15 +65,15 @@ var Drawing = {
     };Place.radarSearch(request, Drawing.overlayCallBack);
   },
 
-  overlayCallBack: function overlayCallBack(restaurants) {
-    console.log('restaurants', restaurants);
-    var list = '';
+  overlayCallBack: function overlayCallBack(places) {
+    // console.log('restaurants', restaurants)
+    // let list = ''
     Marker.reset();
-    restaurants.forEach(function (restaurant) {
-      Marker.add(Place.map, restaurant);
-      list = '' + list + Html.createListItem(restaurant);
+    places.map(function (place) {
+      Marker.add(Place.map, place);
+      // list = `${list}${Html.createListItem(restaurant)}`
     });
-    Html.renderRestaurantList(list);
+    // Html.renderRestaurantList(list)
   },
 
   enable: function enable() {
