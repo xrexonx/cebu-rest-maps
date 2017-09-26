@@ -25,8 +25,7 @@ const Marker = {
     const content = Html.buildInfoWindow(place)
     const infoWindow = new google.maps.InfoWindow({ content })
 
-    marker.addListener('mouseout', () => infoWindow.close())
-    marker.addListener('mouseover', () => infoWindow.open(map, marker))
+    marker.addListener('click', () => infoWindow.open(map, marker))
     Marker.markers.push(marker)
   },
 

@@ -4,12 +4,17 @@
 var Html = {
 
   getAddress: function getAddress(data) {
-    return data.formatted_address || data.vicinity;
+    return data.vicinity || data.formatted_address;
+  },
+
+  // Transfer to String helper
+  truncateStr: function truncateStr(str, max) {
+    return str.length > max ? str.substr(0, max - 1) + '\u2026' : str;
   },
 
   buildInfoWindow: function buildInfoWindow(data) {
     var address = Html.getAddress(data);
-    return '<div>\n     <p>' + data.name + '</p>\n     <span class="mdl-list__item-sub-title">\n       ' + address + '\n     </span>\n    </div>';
+    return '<div>\n     <p>' + data.name + '</p>\n     <span class="mdl-list__item-sub-title">\n       ' + Html.truncateStr(address, 30) + '\n     </span>\n      <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"\n        onClick=Directions.get(' + JSON.stringify(data.geometry.location) + ')>\n        <i id="' + data.place_id + '" class="material-icons mdl-color-text--blue">directions</i>\n       <div class="mdl-tooltip" data-mdl-for="' + data.place_id + '">Directions</div>\n      </button>\n    </div>';
   },
 
   createListItem: function createListItem(name) {

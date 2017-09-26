@@ -27,10 +27,7 @@ var Marker = {
     var content = Html.buildInfoWindow(place);
     var infoWindow = new google.maps.InfoWindow({ content: content });
 
-    marker.addListener('mouseout', function () {
-      return infoWindow.close();
-    });
-    marker.addListener('mouseover', function () {
+    marker.addListener('click', function () {
       return infoWindow.open(map, marker);
     });
     Marker.markers.push(marker);

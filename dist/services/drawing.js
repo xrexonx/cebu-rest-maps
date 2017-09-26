@@ -5,7 +5,10 @@ var SHAPE_OPTIONS = {
   strokeOpacity: 0.8,
   strokeWeight: 2,
   fillColor: '#FF0000',
-  fillOpacity: 0.35
+  fillOpacity: 0.35,
+  draggable: true,
+  geodesic: true,
+  editable: true
 };
 
 var Drawing = {
@@ -13,8 +16,6 @@ var Drawing = {
   map: null,
   placeService: null,
   drawingManager: null,
-  circle: null,
-  rectangle: null,
   overlay: null,
 
   init: function init(map) {
@@ -22,67 +23,42 @@ var Drawing = {
     Drawing.map = map;
     Drawing.placeService = new google.maps.places.PlacesService(map);
 
-    Drawing.circle = new google.maps.Circle(SHAPE_OPTIONS);
-    Drawing.rectangle = new google.maps.Rectangle(SHAPE_OPTIONS);
+    var circleOptions = new google.maps.Circle(SHAPE_OPTIONS);
+    var rectangleOptions = new google.maps.Rectangle(SHAPE_OPTIONS);
 
     var drawingManager = new google.maps.drawing.DrawingManager({
-      drawingMode: google.maps.drawing.OverlayType.MARKER,
+      drawingMode: null,
       drawingControl: true,
       drawingControlOptions: {
         position: google.maps.ControlPosition.TOP_CENTER,
         drawingModes: ['circle', 'rectangle']
       },
-      circleOptions: Drawing.circle,
-      rectangleOptions: Drawing.rectangle
+      circleOptions: circleOptions,
+      rectangleOptions: rectangleOptions
     });
 
     Drawing.drawingManager = drawingManager;
-
+    Drawing.drawingManager.setMap(map);
     google.maps.event.addListener(drawingManager, 'overlaycomplete', function (event) {
       Drawing.overlay = event.overlay;
-      if (event.type === 'circle') Drawing.onCompleteCircle(Drawing.overlay);
-      if (event.type === 'rectangle') Drawing.onCompleteRectangle(Drawing.overlay);
+      Drawing.onOverComplete(event.overlay);
     });
   },
 
-  onCompleteCircle: function onCompleteCircle(overlay) {
-    var center = new google.maps.LatLng(overlay.getCenter().lat(), overlay.getCenter().lng());
+  onOverComplete: function onOverComplete(overlay) {
     var request = {
-      location: center,
-      radius: overlay.getRadius(),
-      type: ['restaurant']
-    };
-    Place.nearbySearch(request, Drawing.overlayCallBack);
-  },
-
-  onCompleteRectangle: function onCompleteRectangle(overlay) {
-    var bounce = overlay.getBounds();
-    var request = {
-      bounds: bounce,
+      bounds: overlay.getBounds(),
       type: 'restaurant',
       keyword: 'restaurant cebu'
-      // radarSearch will be deprecated soon
-    };Place.radarSearch(request, Drawing.overlayCallBack);
-  },
-
-  overlayCallBack: function overlayCallBack(places) {
-    // console.log('restaurants', restaurants)
-    // let list = ''
-    Marker.reset();
-    places.map(function (place) {
-      Marker.add(Place.map, place);
-      // list = `${list}${Html.createListItem(restaurant)}`
+    };
+    var service = new google.maps.places.PlacesService(Place.map);
+    service.radarSearch(request, function (results) {
+      // Render or show results count.
+      console.log('results', results.length);
     });
-    // Html.renderRestaurantList(list)
   },
 
-  enable: function enable() {
-    Drawing.drawingManager.setMap(Drawing.map);
-  },
-
-  disable: function disable() {
-    // Marker.reset()
-    Drawing.drawingManager.setMap(null);
+  clearDrawing: function clearDrawing() {
     Drawing.overlay.setMap(null);
   }
 

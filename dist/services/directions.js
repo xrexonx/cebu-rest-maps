@@ -13,6 +13,7 @@ var Directions = {
     Directions.directionsService = new google.maps.DirectionsService();
     Directions.directionsDisplay = new google.maps.DirectionsRenderer();
     Directions.directionsDisplay.setMap(map);
+    Directions.directionsDisplay.setPanel(document.getElementById('directionsPanel'));
   },
 
   get: function get(destination) {
@@ -26,7 +27,6 @@ var Directions = {
     };
     Directions.directionsService.route(request, function (result, status) {
       if (status === 'OK') {
-        Marker.reset();
         Directions.directionsDisplay.setDirections(result);
       }
     });

@@ -1,12 +1,12 @@
 'use strict';
 
-var category = ['Burger', 'Bar', 'Cafe', 'Pizza', 'Lechon', 'Jollibee'];
-
 var Place = {
 
   map: null,
   placeService: null,
   defaultLocation: null,
+
+  categories: ['Burger', 'Bar', 'Cafe', 'Pizza', 'Lechon', 'Jollibee'],
 
   init: function init(map, location) {
     Place.map = map;
@@ -17,9 +17,9 @@ var Place = {
 
   renderRestaurants: function renderRestaurants() {
     var categoryList = '';
-    category.map(function (catName) {
-      categoryList = '' + categoryList + Html.createListItem(catName);
-      Place.getRestaurantByCategory(catName);
+    Place.categories.map(function (category) {
+      categoryList = '' + categoryList + Html.createListItem(category);
+      Place.getRestaurantByCategory(category);
     });
     Html.renderCategoryList(categoryList);
   },
@@ -36,10 +36,10 @@ var Place = {
     Place.getDetails(placeId, _callback);
   },
 
-  getRestaurantByCategory: function getRestaurantByCategory(category) {
-    var _request = {
+  getRestaurantByCategory: function getRestaurantByCategory(category, request) {
+    var _request = request || {
       location: Place.defaultLocation,
-      radius: 10000,
+      radius: 20000,
       type: 'restaurant',
       query: 'Cebu ' + category
     };
@@ -51,20 +51,24 @@ var Place = {
     Place.textSearch(_request, _handleCallback);
   },
 
-  _handleCallBack: function _handleCallBack(place, status, callback) {
+  _handleCallBack: function _handleCallBack(place, status, pagination, callback) {
     var statusOk = google.maps.places.PlacesServiceStatus.OK;
-    if (status === statusOk) callback(place);
+    if (status === statusOk) {
+      // For more results
+      // if (pagination.hasNextPage) pagination.nextPage()
+      callback(place);
+    }
   },
 
   textSearch: function textSearch(request, callback) {
-    Place.placeService.textSearch(request, function (places, status) {
-      return Place._handleCallBack(places, status, callback);
+    Place.placeService.textSearch(request, function (places, status, pagination) {
+      return Place._handleCallBack(places, status, pagination, callback);
     });
   },
 
   nearbySearch: function nearbySearch(request, callback) {
-    Place.placeService.nearbySearch(request, function (places, status) {
-      return Place._handleCallBack(places, status, callback);
+    Place.placeService.nearbySearch(request, function (places, status, pagination) {
+      return Place._handleCallBack(places, status, pagination, callback);
     });
   },
 

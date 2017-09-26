@@ -16,6 +16,11 @@ html, body {
   height: 100vh;
 }
 
+#directionsPanel {
+    height: 550px;
+    overflow-y: scroll;
+}
+
 /*#leftpanel {*/
     /*height: 100vh;*/
 /*}*/

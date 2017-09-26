@@ -1,17 +1,17 @@
-const category = [
-  'Burger',
-  'Bar',
-  'Cafe',
-  'Pizza',
-  'Lechon',
-  'Jollibee'
-]
-
 const Place = {
 
   map: null,
   placeService: null,
   defaultLocation: null,
+
+  categories: [
+    'Burger',
+    'Bar',
+    'Cafe',
+    'Pizza',
+    'Lechon',
+    'Jollibee'
+  ],
 
   init: (map, location) => {
     Place.map = map
@@ -22,9 +22,9 @@ const Place = {
 
   renderRestaurants: () => {
     let categoryList = ''
-    category.map(catName => {
-      categoryList = `${categoryList}${Html.createListItem(catName)}`
-      Place.getRestaurantByCategory(catName)
+    Place.categories.map(category => {
+      categoryList = `${categoryList}${Html.createListItem(category)}`
+      Place.getRestaurantByCategory(category)
     })
     Html.renderCategoryList(categoryList)
   },
@@ -41,10 +41,10 @@ const Place = {
     Place.getDetails(placeId, _callback)
   },
 
-  getRestaurantByCategory: category => {
-    const _request = {
+  getRestaurantByCategory: (category, request) => {
+    const _request = request || {
       location: Place.defaultLocation,
-      radius: 10000,
+      radius: 20000,
       type: 'restaurant',
       query: `Cebu ${category}`
     }
@@ -52,17 +52,21 @@ const Place = {
     Place.textSearch(_request, _handleCallback)
   },
 
-  _handleCallBack: (place, status, callback) => {
+  _handleCallBack: (place, status, pagination, callback) => {
     const statusOk = google.maps.places.PlacesServiceStatus.OK
-    if (status === statusOk) callback(place)
+    if (status === statusOk) {
+      // For more results
+      // if (pagination.hasNextPage) pagination.nextPage()
+      callback(place)
+    }
   },
 
   textSearch: (request, callback) => {
-    Place.placeService.textSearch(request, (places, status) => Place._handleCallBack(places, status, callback))
+    Place.placeService.textSearch(request, (places, status, pagination) => Place._handleCallBack(places, status, pagination, callback))
   },
 
   nearbySearch: (request, callback) => {
-    Place.placeService.nearbySearch(request, (places, status) => Place._handleCallBack(places, status, callback))
+    Place.placeService.nearbySearch(request, (places, status, pagination) => Place._handleCallBack(places, status, pagination, callback))
   },
 
   radarSearch: (request, callback) => {

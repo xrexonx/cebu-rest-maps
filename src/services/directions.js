@@ -11,6 +11,7 @@ const Directions = {
     Directions.directionsService = new google.maps.DirectionsService()
     Directions.directionsDisplay = new google.maps.DirectionsRenderer()
     Directions.directionsDisplay.setMap(map)
+    Directions.directionsDisplay.setPanel(document.getElementById('directionsPanel'))
   },
 
   get: (destination, origin = MapService.currentLocation) => {
@@ -22,7 +23,6 @@ const Directions = {
     }
     Directions.directionsService.route(request, (result, status) => {
       if (status === 'OK') {
-        Marker.reset()
         Directions.directionsDisplay.setDirections(result)
       }
     })

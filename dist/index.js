@@ -5,9 +5,6 @@
 var initialize = function initialize() {
   return MapService.initMap();
 };
-var enableDrawingTool = function enableDrawingTool() {
-  return Drawing.enable();
-};
-var disableDrawingTool = function disableDrawingTool() {
-  return Drawing.disable();
+var clearDrawing = function clearDrawing() {
+  return Drawing.clearDrawing();
 };

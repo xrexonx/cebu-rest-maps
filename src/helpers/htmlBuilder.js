@@ -2,7 +2,12 @@
 const Html = {
 
   getAddress: data => {
-    return data.formatted_address || data.vicinity
+    return data.vicinity || data.formatted_address
+  },
+
+  // Transfer to String helper
+  truncateStr: (str, max) => {
+  return str.length > max ? `${str.substr(0, max-1)}…` : str
   },
 
   buildInfoWindow: data => {
@@ -10,8 +15,13 @@ const Html = {
     return `<div>
      <p>${data.name}</p>
      <span class="mdl-list__item-sub-title">
-       ${address}
+       ${Html.truncateStr(address, 30)}
      </span>
+      <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"
+        onClick=Directions.get(${JSON.stringify(data.geometry.location)})>
+        <i id="${data.place_id}" class="material-icons mdl-color-text--blue">directions</i>
+       <div class="mdl-tooltip" data-mdl-for="${data.place_id}">Directions</div>
+      </button>
     </div>`
   },
 
