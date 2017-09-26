@@ -3,13 +3,21 @@ html, body {
     padding: 0;
 }
 
+.content-grid {
+    height: 100vh;
+}
+
 #map {
-    height: 550px;
+    height: 100vh;
     width: 100%
 }
 
 #rightPanel {
-  height: 590px;
+  height: 100vh;
+}
+
+#leftpanel {
+    height: 100vh;
 }
 
 #restaurantList {

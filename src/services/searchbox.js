@@ -17,7 +17,7 @@ const SearchBox = {
       let list = ''
       places.forEach(place => {
 
-        Marker.create(map, place)
+        Marker.add(map, place)
         list = `${list}${Html.createListItem(place)}`
 
         place.geometry.viewport

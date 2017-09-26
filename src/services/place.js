@@ -2,20 +2,32 @@ const Place = {
 
   map: null,
   placeService: null,
-  defaultKeyword: 'restaurants Cebu',
   defaultLocation: null,
 
   init: (map, location) => {
     Place.map = map
     Place.defaultLocation = location
     Place.placeService = new google.maps.places.PlacesService(map)
-    Place.getDefaultRestaurant()
+
+    const category = [
+      'Burger',
+      'Bar',
+      'Cafe',
+      'Pizza',
+      'Lechon',
+      'Coffee shop'
+    ]
+    let categoryList = ''
+    category.forEach(catName => {
+      categoryList = `${categoryList}${Html.createListItem(catName)}`
+      Place.getDefaultRestaurant(catName)
+    })
+    Html.renderCategoryList(categoryList)
   },
 
   _handleCallBack: (place, status, callback) => {
     const statusOk = google.maps.places.PlacesServiceStatus.OK
     if (status === statusOk) callback(place)
-    // Add error handler...
   },
 
   textSearch: (request, callback) => {
@@ -27,7 +39,7 @@ const Place = {
   },
 
   radarSearch: (request, callback) => {
-    Place.placeService.textSearch(request, (places, status) => Place._handleCallBack(places, status, callback))
+    Place.placeService.radarSearch(request, (places, status) => Place._handleCallBack(places, status, callback))
   },
 
   getDetails: (placeId, callback) => {
@@ -36,31 +48,27 @@ const Place = {
 
   getPlaceDetails: placeId => {
     const _callback = place => {
-      // Html.hideSpinner()
       Marker.reset()
-      Marker.create(Place.map, place)
+      Marker.add(Place.map, place)
       Html.buildDetailsPanel(place)
       Html.showDetailsPanel()
       Place.map.setCenter(place.geometry.location)
       Place.map.setZoom(18)
     }
-    // Html.showSpinner()
     Place.getDetails(placeId, _callback)
   },
 
-  getDefaultRestaurant: () => {
+  getDefaultRestaurant: category => {
     const _request = {
       location: Place.defaultLocation,
-      radius: 1000,
-      query: 'restaurants Cebu'
+      radius: 10000,
+      type: 'restaurant',
+      query: `Cebu ${category}`
     }
-    const _handleCallback = restaurants => {
-      let list = ''
-      restaurants.forEach(restaurant => {
-        Marker.create(Place.map, restaurant)
-        list = `${list}${Html.createListItem(restaurant)}`
+    const _handleCallback = places => {
+      places.forEach(place => {
+        Marker.add(Place.map, place, category)
       })
-      Html.renderRestaurantList(list)
     }
     Place.textSearch(_request, _handleCallback)
   }

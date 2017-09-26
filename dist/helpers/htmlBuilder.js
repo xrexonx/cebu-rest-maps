@@ -12,12 +12,11 @@ var Html = {
     return '<div>\n     <p>' + data.name + '</p>\n     <span class="mdl-list__item-sub-title">\n       ' + address + '\n     </span>\n    </div>';
   },
 
-  createListItem: function createListItem(data) {
-    var address = Html.getAddress(data);
-    return '\n    <li class="mdl-list__item mdl-list__item--two-line">\n      <span class="mdl-list__item-primary-content"\n      onClick=Place.getPlaceDetails("' + data.place_id + '")>\n        <span>' + data.name + '</span>\n        <span class="mdl-list__item-sub-title">' + address + '</span>\n      </span>\n      <span class="mdl-list__item-secondary-content">\n        <button id="' + data.place_id + '" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"\n          onClick=Directions.get(' + JSON.stringify(data.geometry.location) + ')>\n          <i class="icon material-icons mdl-color-text--blue">directions</i>\n          <div class="mdl-tooltip" data-mdl-for="' + data.place_id + '">Directions</div>\n        </button>\n      </span>\n    </li>';
+  createListItem: function createListItem(name) {
+    return '\n      <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="' + name + '">\n        <input\n          type="checkbox" \n          id="' + name + '" \n          class="mdl-checkbox__input" \n          checked\n          onchange=Marker.filterMarkers(this.id)>\n        <span class="mdl-checkbox__label">' + name + '</span>\n      </label>\n';
   },
 
-  renderRestaurantList: function renderRestaurantList(lists) {
+  renderCategoryList: function renderCategoryList(lists) {
     var listDiv = document.getElementById('restaurantList');
     var ul = document.createElement('ul');
     ul.className = 'mdl-list';

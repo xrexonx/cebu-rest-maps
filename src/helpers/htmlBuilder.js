@@ -15,26 +15,21 @@ const Html = {
     </div>`
   },
 
-  createListItem: data => {
-    const address = Html.getAddress(data)
+  createListItem: name => {
     return `
-    <li class="mdl-list__item mdl-list__item--two-line">
-      <span class="mdl-list__item-primary-content"
-      onClick=Place.getPlaceDetails("${data.place_id}")>
-        <span>${data.name}</span>
-        <span class="mdl-list__item-sub-title">${address}</span>
-      </span>
-      <span class="mdl-list__item-secondary-content">
-        <button id="${data.place_id}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"
-          onClick=Directions.get(${JSON.stringify(data.geometry.location)})>
-          <i class="icon material-icons mdl-color-text--blue">directions</i>
-          <div class="mdl-tooltip" data-mdl-for="${data.place_id}">Directions</div>
-        </button>
-      </span>
-    </li>`
+      <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="${name}">
+        <input
+          type="checkbox" 
+          id="${name}" 
+          class="mdl-checkbox__input" 
+          checked
+          onchange=Marker.filterMarkers(this.id)>
+        <span class="mdl-checkbox__label">${name}</span>
+      </label>
+`
   },
 
-  renderRestaurantList: lists => {
+  renderCategoryList: lists => {
     const listDiv = document.getElementById('restaurantList')
     const ul = document.createElement('ul')
     ul.className = 'mdl-list'

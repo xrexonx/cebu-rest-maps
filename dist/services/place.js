@@ -4,20 +4,25 @@ var Place = {
 
   map: null,
   placeService: null,
-  defaultKeyword: 'restaurants Cebu',
   defaultLocation: null,
 
   init: function init(map, location) {
     Place.map = map;
     Place.defaultLocation = location;
     Place.placeService = new google.maps.places.PlacesService(map);
-    Place.getDefaultRestaurant();
+
+    var category = ['Burger', 'Bar', 'Cafe', 'Pizza', 'Lechon', 'Coffee shop'];
+    var categoryList = '';
+    category.forEach(function (catName) {
+      categoryList = '' + categoryList + Html.createListItem(catName);
+      Place.getDefaultRestaurant(catName);
+    });
+    Html.renderCategoryList(categoryList);
   },
 
   _handleCallBack: function _handleCallBack(place, status, callback) {
     var statusOk = google.maps.places.PlacesServiceStatus.OK;
     if (status === statusOk) callback(place);
-    // Add error handler...
   },
 
   textSearch: function textSearch(request, callback) {
@@ -33,7 +38,7 @@ var Place = {
   },
 
   radarSearch: function radarSearch(request, callback) {
-    Place.placeService.textSearch(request, function (places, status) {
+    Place.placeService.radarSearch(request, function (places, status) {
       return Place._handleCallBack(places, status, callback);
     });
   },
@@ -46,31 +51,27 @@ var Place = {
 
   getPlaceDetails: function getPlaceDetails(placeId) {
     var _callback = function _callback(place) {
-      // Html.hideSpinner()
       Marker.reset();
-      Marker.create(Place.map, place);
+      Marker.add(Place.map, place);
       Html.buildDetailsPanel(place);
       Html.showDetailsPanel();
       Place.map.setCenter(place.geometry.location);
       Place.map.setZoom(18);
     };
-    // Html.showSpinner()
     Place.getDetails(placeId, _callback);
   },
 
-  getDefaultRestaurant: function getDefaultRestaurant() {
+  getDefaultRestaurant: function getDefaultRestaurant(category) {
     var _request = {
       location: Place.defaultLocation,
-      radius: 1000,
-      query: 'restaurants Cebu'
+      radius: 10000,
+      type: 'restaurant',
+      query: 'Cebu ' + category
     };
-    var _handleCallback = function _handleCallback(restaurants) {
-      var list = '';
-      restaurants.forEach(function (restaurant) {
-        Marker.create(Place.map, restaurant);
-        list = '' + list + Html.createListItem(restaurant);
+    var _handleCallback = function _handleCallback(places) {
+      places.forEach(function (place) {
+        Marker.add(Place.map, place, category);
       });
-      Html.renderRestaurantList(list);
     };
     Place.textSearch(_request, _handleCallback);
   }

@@ -73,7 +73,7 @@ const Drawing = {
     let list = ''
     Marker.reset()
     restaurants.forEach(restaurant => {
-      Marker.create(Place.map, restaurant)
+      Marker.add(Place.map, restaurant)
       list = `${list}${Html.createListItem(restaurant)}`
     })
     Html.renderRestaurantList(list)

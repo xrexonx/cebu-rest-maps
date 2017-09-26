@@ -4,11 +4,25 @@ var Marker = {
 
   markers: [],
 
-  create: function create(map, place) {
+  add: function add(map, place, category) {
+
+    var image = {
+      url: place.icon,
+      size: new google.maps.Size(71, 71),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(17, 34),
+      scaledSize: new google.maps.Size(25, 25)
+    };
 
     if (!place.geometry) return;
     var position = place.geometry.location;
-    var marker = new google.maps.Marker({ map: map, position: position });
+    var markerOptions = {
+      map: map,
+      position: position,
+      category: category,
+      icon: image
+    };
+    var marker = new google.maps.Marker(markerOptions);
 
     var content = Html.buildInfoWindow(place);
     var infoWindow = new google.maps.InfoWindow({ content: content });
@@ -29,6 +43,14 @@ var Marker = {
       });
       Marker.markers = [];
     }
-  }
+  },
 
+  filterMarkers: function filterMarkers(category) {
+    var isChecked = document.getElementById(category).checked;
+    Marker.markers.map(function (marker) {
+      if (marker.category === category) {
+        marker.setVisible(isChecked);
+      }
+    });
+  }
 };

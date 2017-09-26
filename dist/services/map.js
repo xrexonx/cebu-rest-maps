@@ -9,7 +9,7 @@ var MapService = {
     var defaultLocation = new google.maps.LatLng(10.318548, 123.90573640000002);
     var map = new google.maps.Map(document.getElementById('map'), {
       center: defaultLocation,
-      zoom: 13
+      zoom: 15
     });
 
     Drawing.init(map);

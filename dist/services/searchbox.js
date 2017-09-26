@@ -21,7 +21,7 @@ var SearchBox = {
       var list = '';
       places.forEach(function (place) {
 
-        Marker.create(map, place);
+        Marker.add(map, place);
         list = '' + list + Html.createListItem(place);
 
         place.geometry.viewport ? bounds.union(place.geometry.viewport) : bounds.extend(place.geometry.location);

@@ -71,7 +71,7 @@ var Drawing = {
     var list = '';
     Marker.reset();
     restaurants.forEach(function (restaurant) {
-      Marker.create(Place.map, restaurant);
+      Marker.add(Place.map, restaurant);
       list = '' + list + Html.createListItem(restaurant);
     });
     Html.renderRestaurantList(list);

@@ -1,4 +1,4 @@
-# Cebu Restaurants Finder
+# Google Maps API 101
 Links on the description
 
 ## Technology involved
