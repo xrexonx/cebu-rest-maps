@@ -13,8 +13,7 @@ const Place = {
     'Bar',
     'Cafe',
     'Pizza',
-    'Lechon',
-    'Jollibee'
+    'Lechon'
   ],
 
   init: (map, location) => {
@@ -31,18 +30,6 @@ const Place = {
       Place.getRestaurantByCategory(category)
     })
     Html.renderCategoryList(categoryList)
-  },
-
-  getPlaceDetails: placeId => {
-    const _callback = place => {
-      Marker.reset()
-      Marker.add(Place.map, place)
-      Html.buildDetailsPanel(place)
-      Html.showDetailsPanel()
-      Place.map.setCenter(place.geometry.location)
-      Place.map.setZoom(18)
-    }
-    Place.getDetails(placeId, _callback)
   },
 
   getRestaurantByCategory: (category, request) => {

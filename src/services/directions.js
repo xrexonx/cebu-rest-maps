@@ -1,3 +1,4 @@
+import Html from '../helpers/htmlBuilder'
 import Map from './map'
 
 const Directions = {
@@ -17,7 +18,6 @@ const Directions = {
   },
 
   get: (destination, origin = Map.currentLocation) => {
-    console.log('origin currentLocation', origin)
     const request = {
       origin: origin || Directions.defaultOrigin,
       destination: destination,
@@ -26,6 +26,7 @@ const Directions = {
     }
     Directions.directionsService.route(request, (result, status) => {
       if (status === 'OK') {
+        Html.showDirectionsPanel()
         Directions.directionsDisplay.setDirections(result)
       }
     })

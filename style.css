@@ -17,13 +17,7 @@ html, body {
 }
 
 #directionsPanel {
-    height: 550px;
-    overflow-y: scroll;
-}
-
-#reviewPanel {
-  height: 320px;
-  overflow-y: scroll;
+    display: none;
 }
 
 #icons {
