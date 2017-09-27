@@ -1,5 +1,6 @@
-import Html from '../helpers/htmlBuilder'
 import Marker from './marker'
+import Html from '../helpers/htmlBuilder'
+import Const from '../constants/constant'
 
 const Place = {
 
@@ -7,18 +8,7 @@ const Place = {
   placeService: null,
   defaultLocation: null,
 
-  categories: [
-    'Burger',
-    'Bar',
-    'Cafe',
-    'Pizza',
-    'Lechon',
-    'Barbecue',
-    'Cafeteria',
-    'Coffeehouse',
-    'Buffet',
-    'French'
-  ],
+  categories: Const.categories,
 
   init: (map, location) => {
     Place.map = map

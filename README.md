@@ -6,13 +6,11 @@ Links on the description
   * [Google Maps Javascript API](https://developers.google.com/maps/documentation/javascript/)
   * [Material Design Lite](https://getmdl.io/)
   * [Babel](https://babeljs.io/)
-  * [RollupJS](https://rollupjs.org/)
+  * [Webpack](https://webpack.js.org/)
 
 
 ## TODO
 * Improve UI
-* Fix rollup module bundler (implement import export) - might use webpack instead
-* Add more details on place/restaurants details panel
 * Dig in more into Google Maps JS/Web Service API
 * Add loader/spinner
 * Add error handling

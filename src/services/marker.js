@@ -6,7 +6,7 @@ const Marker = {
 
   add: (map, place, category) => {
 
-    const image = {
+    const icon = {
       url: `assets/icons/${category}.png`,
       size: new google.maps.Size(71, 71),
       origin: new google.maps.Point(0, 0),
@@ -14,21 +14,12 @@ const Marker = {
       scaledSize: new google.maps.Size(25, 25)
     }
 
-    if (!place.geometry) return
     const position = place.geometry.location
-    const markerOptions = {
-      map,
-      position,
-      category,
-      icon: image
-    }
-    const marker = new google.maps.Marker(markerOptions)
+    const marker = new google.maps.Marker({ map, position, category, icon })
+    const infoWindow = new google.maps.InfoWindow({ content: Html.buildInfoWindow(place) })
 
-    const content = Html.buildInfoWindow(place)
-    const infoWindow = new google.maps.InfoWindow({ content })
-
-    marker.addListener('click', () => infoWindow.open(map, marker))
     Marker.markers.push(marker)
+    marker.addListener('click', () => infoWindow.open(map, marker))
   },
 
   reset: () => {
@@ -39,10 +30,9 @@ const Marker = {
   },
 
   filterMarkers: category => {
-    const isChecked = document.getElementById(category).checked
     Marker.markers.map(marker => {
       if (marker.category === category) {
-        marker.setVisible(isChecked)
+        marker.setVisible(document.getElementById(category).checked)
       }
     })
   }

@@ -1,6 +1,7 @@
 import Drawing from './drawing'
 import Place from './place'
 import Directions from './directions'
+import Const from '../constants/constant'
 
 
 const Map = {
@@ -8,8 +9,7 @@ const Map = {
   currentLocation: null,
 
   init: () => {
-    // Default Location - Ayala Center Cebu LatLng
-    const defaultLocation = new google.maps.LatLng(10.318548, 123.90573640000002)
+    const defaultLocation = new google.maps.LatLng(Const.cebuLatLng.lat, Const.cebuLatLng.lng)
     const map = new google.maps.Map(document.getElementById('map'), {
         center: defaultLocation,
         zoom: 15
