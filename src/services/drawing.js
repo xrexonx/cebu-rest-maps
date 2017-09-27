@@ -41,11 +41,11 @@ const Drawing = {
     google.maps.event.addListener(drawingManager, 'overlaycomplete', event => {
       Drawing.overlay = event.overlay
       Drawing.shapes.push(Drawing.overlay)
-      Drawing.onOverComplete(Drawing.overlay)
+      Drawing.onOverlayComplete(Drawing.overlay)
     })
   },
 
-  onOverComplete: overlay => {
+  onOverlayComplete: overlay => {
     const request = {
       bounds: overlay.getBounds(),
       type: 'restaurant',
@@ -53,7 +53,9 @@ const Drawing = {
     }
     const service = new google.maps.places.PlacesService(Place.map)
     service.radarSearch(request, results => {
-      console.log('results', results.length) // TODO Render or show results count.
+      const notification = document.querySelector('.mdl-js-snackbar')
+      const message = `Found ${results.length} restaurant within the circle/rectangle`
+      notification.MaterialSnackbar.showSnackbar({ message })
     })
   },
 
