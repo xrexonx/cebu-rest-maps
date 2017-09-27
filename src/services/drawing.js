@@ -60,3 +60,5 @@ const Drawing = {
   clearDrawing: () => Drawing.shapes.map(overlay => overlay.setMap(null))
 
 }
+
+export default Drawing

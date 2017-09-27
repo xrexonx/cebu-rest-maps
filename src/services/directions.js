@@ -1,3 +1,5 @@
+import Map from './map'
+
 const Directions = {
 
   map: null,
@@ -14,7 +16,8 @@ const Directions = {
     Directions.directionsDisplay.setPanel(document.getElementById('directionsPanel'))
   },
 
-  get: (destination, origin = MapService.currentLocation) => {
+  get: (destination, origin = Map.currentLocation) => {
+    console.log('origin currentLocation', origin)
     const request = {
       origin: origin || Directions.defaultOrigin,
       destination: destination,
@@ -28,3 +31,5 @@ const Directions = {
     })
   }
 }
+
+export default Directions

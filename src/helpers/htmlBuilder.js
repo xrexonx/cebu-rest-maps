@@ -1,4 +1,7 @@
 // export default Html = {
+import Marker from '../services/marker'
+import Directions from '../services/directions'
+
 const Html = {
 
   getAddress: data => {
@@ -34,9 +37,9 @@ const Html = {
           class="mdl-checkbox__input" 
           checked
           onchange=Marker.filterMarkers(this.id)>
+          <img src="assets/icons/${name}.png" id="icons">
         <span class="mdl-checkbox__label">${name}</span>
-      </label>
-`
+      </label>`
   },
 
   renderCategoryList: lists => {
@@ -131,3 +134,5 @@ const Html = {
   hideSpinner: () => document.getElementById('spinner').style.display = 'none'
 
 }
+
+export default Html

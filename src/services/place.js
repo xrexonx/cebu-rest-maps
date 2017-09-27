@@ -1,3 +1,7 @@
+import Html from '../helpers/htmlBuilder'
+import Marker from './marker'
+
+
 const Place = {
 
   map: null,
@@ -77,3 +81,5 @@ const Place = {
     Place.placeService.getDetails({ placeId }, (place, status) => Place._handleCallBack(place, status, callback))
   }
 }
+
+export default Place

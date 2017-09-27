@@ -31,23 +31,16 @@
       <div id="map"></div>
         <div id="drawingToolPanel" class="mdl-card__menu">
         <button id="tt2" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"
-                onClick=clearDrawing()>
+                onClick=Drawing.clearDrawing()>
             <i class="icon material-icons">clear</i>
             <div class="mdl-tooltip" data-mdl-for="tt2">Clear Drawings</div>
         </button>
         </div>
     </div>
   </div>
-  <!-- TODO: use module bundler.. currently rollup unfortunately didn't work -->
-  <script src="dist/helpers/htmlBuilder.js"></script>
-  <script src="dist/services/marker.js"></script>
-  <script src="dist/services/place.js"></script>
-  <script src="dist/services/drawing.js"></script>
-  <script src="dist/services/directions.js"></script>
-  <script src="dist/services/map.js"></script>
-  <script src="dist/index.js"></script>
+  <script src="dist/bundle.js"></script>
   <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBY05M8svkUl_xLuxyWVKuLOZ2mZRQaGOQ&libraries=places,drawing&callback=initialize&region=PH">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBY05M8svkUl_xLuxyWVKuLOZ2mZRQaGOQ&libraries=places,drawing&region=PH">
   </script>
 <!-- AIzaSyBY05M8svkUl_xLuxyWVKuLOZ2mZRQaGOQ -->
 <!-- AIzaSyCXI92ZH6gRINBe_fj1kLXHBUdTfBr0Sww -->

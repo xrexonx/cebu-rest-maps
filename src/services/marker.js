@@ -1,3 +1,5 @@
+import Html from '../helpers/htmlBuilder'
+
 const Marker = {
 
   markers: [],
@@ -45,3 +47,5 @@ const Marker = {
     })
   }
 }
+
+export default Marker
