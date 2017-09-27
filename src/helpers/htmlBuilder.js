@@ -1,4 +1,3 @@
-// export default Html = {
 import Marker from '../services/marker'
 import Directions from '../services/directions'
 

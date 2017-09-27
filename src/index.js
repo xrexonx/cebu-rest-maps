@@ -2,8 +2,8 @@ import Map from '../src/services/map'
 import Marker from '../src/services/marker'
 import Drawing from '../src/services/drawing'
 import Place from '../src/services/place'
-import Directions from '../src/services/drawing'
 import Html from '../src/helpers/htmlBuilder'
+import Directions from '../src/services/directions'
 
 window.onload = function() {
   Map.init()
