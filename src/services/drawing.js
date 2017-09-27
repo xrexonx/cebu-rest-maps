@@ -39,6 +39,7 @@ const Drawing = {
     Drawing.drawingManager = drawingManager
     Drawing.drawingManager.setMap(map)
     google.maps.event.addListener(drawingManager, 'overlaycomplete', event => {
+      Drawing.clear()
       Drawing.overlay = event.overlay
       Drawing.shapes.push(Drawing.overlay)
       Drawing.onOverlayComplete(Drawing.overlay)
@@ -55,11 +56,11 @@ const Drawing = {
     service.radarSearch(request, results => {
       const notification = document.querySelector('.mdl-js-snackbar')
       const message = `Found ${results.length} restaurant within the circle/rectangle`
-      notification.MaterialSnackbar.showSnackbar({ message })
+      notification.MaterialSnackbar.showSnackbar({ message, timeout: 50000 })
     })
   },
 
-  clearDrawing: () => Drawing.shapes.map(overlay => overlay.setMap(null))
+  clear: () => Drawing.shapes.map(overlay => overlay.setMap(null))
 
 }
 

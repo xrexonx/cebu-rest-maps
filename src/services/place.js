@@ -1,7 +1,6 @@
 import Html from '../helpers/htmlBuilder'
 import Marker from './marker'
 
-
 const Place = {
 
   map: null,
@@ -13,7 +12,12 @@ const Place = {
     'Bar',
     'Cafe',
     'Pizza',
-    'Lechon'
+    'Lechon',
+    'Barbecue',
+    'Cafeteria',
+    'Coffeehouse',
+    'Buffet',
+    'French'
   ],
 
   init: (map, location) => {
