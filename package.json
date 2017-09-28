@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "babel --presets es2015 src -d dist"
+    "build": "webpack"
   },
   "author": "Rexon De los Reyes",
   "devDependencies": {
