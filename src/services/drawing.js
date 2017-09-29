@@ -1,3 +1,6 @@
+import Marker from './marker'
+import Html from '../helpers/htmlBuilder'
+
 const SHAPE_OPTIONS = {
   strokeColor: '#FF0000',
   strokeOpacity: 0.8,
@@ -47,17 +50,10 @@ const Drawing = {
   },
 
   onOverlayComplete: overlay => {
-    const request = {
-      bounds: overlay.getBounds(),
-      type: 'restaurant',
-      keyword: 'restaurant cebu'
-    }
-    const service = new google.maps.places.PlacesService(Place.map)
-    service.radarSearch(request, results => {
-      const notification = document.querySelector('.mdl-js-snackbar')
-      const message = `Found ${results.length} restaurant within the circle/rectangle`
-      notification.MaterialSnackbar.showSnackbar({ message, timeout: 50000 })
-    })
+    const bounds = overlay.getBounds()
+    const markers = Marker.getMarkers()
+    const placesFound = markers.filter(marker => bounds.contains(marker.getPosition()))
+    Html.displayResultsCount(placesFound.length)
   },
 
   clear: () => Drawing.shapes.map(overlay => overlay.setMap(null))

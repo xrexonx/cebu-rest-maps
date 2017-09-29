@@ -5,7 +5,7 @@ import Place from '../src/services/place'
 import Html from '../src/helpers/htmlBuilder'
 import Directions from '../src/services/directions'
 
-window.onload = function() {
+window.onload = () => {
   Map.init()
   // Bind to window for now. Need to have this in webpack config
   window.Map = Map

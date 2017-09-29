@@ -3,7 +3,6 @@ import Place from './place'
 import Directions from './directions'
 import Const from '../constants/constant'
 
-
 const Map = {
 
   currentLocation: null,

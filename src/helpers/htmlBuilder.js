@@ -12,19 +12,58 @@ const Html = {
   return str.length > max ? `${str.substr(0, max-1)}…` : str
   },
 
+  buildDetailsPanel: data => {
+    const {
+      url,
+      name,
+      geometry: { location }
+    } = data
+    const detailPanelDiv = document.getElementById('detailPanel')
+    const detailContent = `
+      <div class="mdl-card__title">
+        <h2 class="mdl-card__title-text">${name}</h2>
+      </div>
+      <div class="mdl-card__supporting-text">
+       ${Html.getAddress(data)}
+      </div>
+      <div class="mdl-card__actions mdl-card--border">
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
+            href="${url}" target="_blank">More Details</a>
+        <div class="mdl-layout-spacer"></div>
+        <button id="directionIcon" class="mdl-button mdl-button--icon mdl-button--colored"
+          onClick=Directions.get(${JSON.stringify(location)})>
+          <i class="material-icons">directions</i>
+          <div class="mdl-tooltip" data-mdl-for="directionIcon">Get Directions</div>
+        </button>
+      </div>`
+
+    detailPanelDiv.innerHTML = ""
+    detailPanelDiv.innerHTML = detailContent
+    // Upgrade newly added mdl id ad classes
+    componentHandler.upgradeAllRegistered()
+  },
+
   buildInfoWindow: data => {
-    const address = Html.getAddress(data)
-    return `<div>
-     <p>${data.name}</p>
-     <span class="mdl-list__item-sub-title">
-       ${Html.truncateStr(address, 30)}
-     </span>
-      <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"
-        onClick=Directions.get(${JSON.stringify(data.geometry.location)})>
-        <i id="${data.place_id}" class="material-icons mdl-color-text--blue">directions</i>
-       <div class="mdl-tooltip" data-mdl-for="${data.place_id}">Directions</div>
-      </button>
-    </div>`
+    const { place_id, name, geometry: { location } } = data
+    return ` 
+     <div class="infoWindow">
+        <div class="mdl-card__title">
+          <h2 class="mdl-card__title-text">${name}</h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+           ${Html.getAddress(data)}
+        </div>
+        <div class="mdl-card__actions mdl-card--border">
+          <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
+            onClick=Place.getPlaceDetails("${place_id}")>
+            Show Details
+          </a>
+          <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
+            onClick=Directions.get(${JSON.stringify(location)})>
+            Get Directions
+          </a>
+        </div>
+      </div>`
   },
 
   createListItem: name => {
@@ -58,6 +97,16 @@ const Html = {
   hideDirectionsPanel: () => {
     document.getElementById('filterPanel').style.display = 'block'
     document.getElementById('directionsPanel').style.display = 'none'
+  },
+
+  showDetailsPanel: () => {
+    document.getElementById('detailPanel').style.display = 'block'
+  },
+
+  displayResultsCount: count => {
+    document.querySelector('.mdl-js-snackbar').MaterialSnackbar.showSnackbar({
+      message: `Found ${count} restaurant(s) within the circle/rectangle`
+    })
   }
 
 }

@@ -3,23 +3,26 @@ import Html from '../helpers/htmlBuilder'
 const Marker = {
 
   markers: [],
+  infoWindow: null,
 
-  add: (map, place, category) => {
-
-    const icon = {
+  _setCategoryIcon: (category) => {
+    return {
       url: `assets/icons/${category}.png`,
       size: new google.maps.Size(71, 71),
       origin: new google.maps.Point(0, 0),
       anchor: new google.maps.Point(17, 34),
       scaledSize: new google.maps.Size(25, 25)
     }
+  },
 
+  add: (map, place, category) => {
+
+    const icon = Marker._setCategoryIcon(category)
     const position = place.geometry.location
     const marker = new google.maps.Marker({ map, position, category, icon })
-    const infoWindow = new google.maps.InfoWindow({ content: Html.buildInfoWindow(place) })
-
+    Marker.infoWindow = new google.maps.InfoWindow({ content: Html.buildInfoWindow(place) })
     Marker.markers.push(marker)
-    marker.addListener('click', () => infoWindow.open(map, marker))
+    marker.addListener('click', () => Marker.infoWindow.open(map, marker))
   },
 
   reset: () => {
@@ -35,6 +38,10 @@ const Marker = {
         marker.setVisible(document.getElementById(category).checked)
       }
     })
+  },
+
+  getMarkers: () => {
+    return Marker.markers
   }
 }
 

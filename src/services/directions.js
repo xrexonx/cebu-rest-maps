@@ -1,5 +1,5 @@
-import Html from '../helpers/htmlBuilder'
 import Map from './map'
+import Html from '../helpers/htmlBuilder'
 
 const Directions = {
 
@@ -14,6 +14,7 @@ const Directions = {
     Directions.directionsService = new google.maps.DirectionsService()
     Directions.directionsDisplay = new google.maps.DirectionsRenderer()
     Directions.directionsDisplay.setMap(map)
+    Directions.directionsDisplay.setOptions({ preserveViewport: true })
     Directions.directionsDisplay.setPanel(document.getElementById('directionsPanel'))
   },
 

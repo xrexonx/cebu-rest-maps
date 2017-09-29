@@ -26,24 +26,35 @@ const Place = {
     Html.renderCategoryList(categoryList)
   },
 
+  _buildAdvanceSearchQuery: (category) => {
+    return `restaurants|food|${category.toLowerCase()} in Cebu, PH`
+  },
+
   getRestaurantByCategory: (category, request) => {
     const _request = request || {
       location: Place.defaultLocation,
       radius: 20000,
       type: 'restaurant',
-      query: `Cebu ${category}`
+      query: Place._buildAdvanceSearchQuery(category)
     }
-    const _handleCallback = places => places.map(place => Marker.add(Place.map, place, category))
-    Place.textSearch(_request, _handleCallback)
+    const callback = places => places.map(place => Marker.add(Place.map, place, category))
+    Place.textSearch(_request, callback)
   },
 
   _handleCallBack: (place, status, pagination, callback) => {
     const statusOk = google.maps.places.PlacesServiceStatus.OK
     if (status === statusOk) {
-      // For more results
-      // if (pagination.hasNextPage) pagination.nextPage()
+      if (pagination.hasNextPage) pagination.nextPage()
       callback(place)
     }
+  },
+
+  getPlaceDetails: placeId => {
+    const _callback = place => {
+      Html.buildDetailsPanel(place)
+      Html.showDetailsPanel()
+    }
+    Place.getDetails(placeId, _callback)
   },
 
   textSearch: (request, callback) => {
@@ -55,11 +66,11 @@ const Place = {
   },
 
   radarSearch: (request, callback) => {
-    Place.placeService.radarSearch(request, (places, status) => Place._handleCallBack(places, status, callback))
+    Place.placeService.radarSearch(request, (places, status, pagination) => Place._handleCallBack(places, status, pagination, callback))
   },
 
   getDetails: (placeId, callback) => {
-    Place.placeService.getDetails({ placeId }, (place, status) => Place._handleCallBack(place, status, callback))
+    Place.placeService.getDetails({ placeId }, place => callback(place))
   }
 }
 
