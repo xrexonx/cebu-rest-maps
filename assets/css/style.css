@@ -37,3 +37,7 @@ html, body {
     margin-right: 3px;
     margin-left: 3px;
 }
+
+.detailsList {
+    padding: 0 !important;
+}

@@ -1,9 +1,9 @@
 import Html from '../helpers/htmlBuilder'
+import Map from './map'
 
 const Marker = {
 
   markers: [],
-  infoWindow: null,
 
   _setCategoryIcon: (category) => {
     return {
@@ -16,13 +16,14 @@ const Marker = {
   },
 
   add: (map, place, category) => {
-
     const icon = Marker._setCategoryIcon(category)
     const position = place.geometry.location
     const marker = new google.maps.Marker({ map, position, category, icon })
-    Marker.infoWindow = new google.maps.InfoWindow({ content: Html.buildInfoWindow(place) })
     Marker.markers.push(marker)
-    marker.addListener('click', () => Marker.infoWindow.open(map, marker))
+    marker.addListener('click', () => {
+      Map.infoWindow.setContent(Html.buildInfoWindow(place))
+      Map.infoWindow.open(map, marker)
+    })
   },
 
   reset: () => {

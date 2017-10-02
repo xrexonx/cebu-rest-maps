@@ -5,6 +5,7 @@ import Const from '../constants/constant'
 
 const Map = {
 
+  infoWindow: null,
   currentLocation: null,
 
   init: () => {
@@ -17,6 +18,7 @@ const Map = {
     Place.init(map, defaultLocation)
     Directions.init(map, defaultLocation)
     Map.setCurrentLocation()
+    Map.infoWindow = new google.maps.InfoWindow()
   },
 
   setCurrentLocation: () => {

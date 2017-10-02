@@ -7,9 +7,50 @@ const Html = {
     return data.vicinity || data.formatted_address
   },
 
+  getPhone: data => {
+    return data.international_phone_number || data.formatted_phone_number
+  },
+
   // Transfer to String helper
   truncateStr: (str, max) => {
   return str.length > max ? `${str.substr(0, max-1)}…` : str
+  },
+
+  getPlacesItem: (data) => {
+    const {
+      website,
+      vicinity,
+      formatted_address,
+      formatted_phone_number,
+      international_phone_number,
+    } = data
+    let placesData = []
+    const _pushData = (details, icon) => placesData.push({details, icon})
+    if (vicinity || formatted_address) {
+      _pushData(Html.getAddress(data), 'place')
+    }
+    if (formatted_phone_number || international_phone_number) {
+      _pushData(Html.getPhone(data), 'phone')
+    }
+    if (website) {
+      _pushData(website, 'link')
+    }
+    return placesData
+  },
+
+  placeListDetails: (data) => {
+    let placesData = Html.getPlacesItem(data)
+    let placesList = ''
+    placesData.map(place => {
+      placesList = `${placesList}
+      <li class="mdl-list__item detailsList">
+        <span class="mdl-list__item-primary-content mdl-card__supporting-text">
+          <i class="material-icons mdl-list__item-icon">${place.icon}</i>
+          ${place.details}
+        </span>
+      </li>`
+    })
+    return placesList
   },
 
   buildDetailsPanel: data => {
@@ -18,13 +59,16 @@ const Html = {
       name,
       geometry: { location }
     } = data
+    const detailsList = Html.placeListDetails(data)
     const detailPanelDiv = document.getElementById('detailPanel')
     const detailContent = `
       <div class="mdl-card__title">
         <h2 class="mdl-card__title-text">${name}</h2>
       </div>
       <div class="mdl-card__supporting-text">
-       ${Html.getAddress(data)}
+       <ul class="mdl-list">
+           ${detailsList}
+        </ul>
       </div>
       <div class="mdl-card__actions mdl-card--border">
         <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"

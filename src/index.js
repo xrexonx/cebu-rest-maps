@@ -8,7 +8,6 @@ import Directions from '../src/services/directions'
 window.onload = () => {
   Map.init()
   // Bind to window for now. Need to have this in webpack config
-  window.Map = Map
   window.Html = Html
   window.Place = Place
   window.Marker = Marker
