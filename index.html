@@ -19,7 +19,15 @@
                     <h2 class="mdl-card__title-text">Cebu's Restaurants</h2>
                 </div>
                 <div class="mdl-card__supporting-text">
-                    Category Filter
+                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkAll">
+                        <input
+                            type="checkbox"
+                            id="checkAll"
+                            class="mdl-checkbox__input"
+                            checked
+                            onchange=Html.checkUncheckAllFilters()>
+                        <span class="mdl-checkbox__label">Category Filter</span>
+                    </label>
                     <div id="categoryList"></div>
                 </div>
             </div>
@@ -50,7 +58,7 @@
   </div>
   <script src="dist/bundle.js"></script>
   <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBY05M8svkUl_xLuxyWVKuLOZ2mZRQaGOQ&libraries=places,drawing&region=PH">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXI92ZH6gRINBe_fj1kLXHBUdTfBr0Sww&libraries=places,drawing&region=PH">
   </script>
 <!-- AIzaSyBY05M8svkUl_xLuxyWVKuLOZ2mZRQaGOQ -->
 <!-- AIzaSyCXI92ZH6gRINBe_fj1kLXHBUdTfBr0Sww -->

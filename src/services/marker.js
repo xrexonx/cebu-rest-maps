@@ -1,5 +1,5 @@
-import Html from '../helpers/htmlBuilder'
 import Map from './map'
+import Html from '../helpers/htmlBuilder'
 
 const Marker = {
 
@@ -39,6 +39,7 @@ const Marker = {
         marker.setVisible(document.getElementById(category).checked)
       }
     })
+    Html.checkUncheckCheckbox()
   },
 
   getMarkers: () => {

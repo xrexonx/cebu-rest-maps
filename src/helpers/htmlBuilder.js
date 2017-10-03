@@ -1,4 +1,5 @@
 import Marker from '../services/marker'
+import Const from '../constants/constant'
 import Directions from '../services/directions'
 
 const Html = {
@@ -124,8 +125,8 @@ const Html = {
       <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="${name}">
         <input
           type="checkbox" 
-          id="${name}" 
-          class="mdl-checkbox__input" 
+          id="${name}"
+          class="mdl-checkbox__input catFilter" 
           checked
           onchange=Marker.filterMarkers(this.id)>
           <img src="assets/icons/${name}.png" id="icons">
@@ -160,6 +161,26 @@ const Html = {
     document.querySelector('.mdl-js-snackbar').MaterialSnackbar.showSnackbar({
       message: `Found ${count} restaurant(s) within the circle/rectangle`
     })
+  },
+
+  checkUncheckAllFilters: () => {
+    const checkedAll = document.getElementById('checkAll').checked
+    const checkboxes = document.querySelectorAll('.mdl-js-checkbox')
+    for (let i = 1; i < checkboxes.length; i++) {
+      const inputCheckBox = checkboxes[i]
+      checkedAll
+        ? inputCheckBox.MaterialCheckbox.check()
+        : inputCheckBox.MaterialCheckbox.uncheck()
+      Marker.filterMarkers(inputCheckBox.getAttribute('for'))
+    }
+  },
+
+  checkUncheckCheckbox: () => {
+    const parentCheckBox = document.querySelector('.mdl-js-checkbox')
+    const filterLen = document.querySelectorAll('.catFilter:checked').length
+    filterLen === Const.categories.length
+      ? parentCheckBox.MaterialCheckbox.check()
+      : parentCheckBox.MaterialCheckbox.uncheck()
   }
 
 }
