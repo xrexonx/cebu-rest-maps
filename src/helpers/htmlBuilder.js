@@ -11,11 +11,6 @@ const Html = {
     return data.international_phone_number || data.formatted_phone_number
   },
 
-  // Transfer to String helper
-  truncateStr: (str, max) => {
-  return str.length > max ? `${str.substr(0, max-1)}…` : str
-  },
-
   getPlacesItem: (data) => {
     const {
       vicinity,
@@ -25,12 +20,8 @@ const Html = {
     } = data
     let placesData = []
     const _pushData = (details, icon) => placesData.push({details, icon})
-    if (vicinity || formatted_address) {
-      _pushData(Html.getAddress(data), 'place')
-    }
-    if (formatted_phone_number || international_phone_number) {
-      _pushData(Html.getPhone(data), 'phone')
-    }
+    if (vicinity || formatted_address) _pushData(Html.getAddress(data), 'place')
+    if (formatted_phone_number || international_phone_number) _pushData(Html.getPhone(data), 'phone')
     return placesData
   },
 
@@ -52,13 +43,13 @@ const Html = {
   createMenuLinkLists: (url, menuUrl, website) => {
     let menuList = ''
     let linkLists = []
-    if (url) linkLists.push({url: url, label: 'View in Google Map'})
-    if (website) linkLists.push({url: website, label: 'View Website'})
-    if (menuUrl) linkLists.push({url: menuUrl, label: 'View Menu / Food Specialty'})
+    const _pushLists = (url, label) => linkLists.push({url, label})
+    if (url) _pushLists(url, 'View in Google Map')
+    if (website) _pushLists(website, 'View Website')
+    if (menuUrl) _pushLists(menuUrl, 'View Menu / Food Specialty')
     linkLists.map(list => {
       const { url, label } = list
-      menuList = `
-        ${menuList}
+      menuList = `${menuList}
         <li><a class="mdl-menu__item" href="${url}" target="_blank">${label}</a></li>
       `
     })
@@ -91,10 +82,10 @@ const Html = {
             Get Directions
         </a>
         <div class="mdl-layout-spacer"></div>
-        <button id="detailsMenuLinks" class="mdl-button mdl-js-button mdl-button--icon">
+        <button id="menuLinks" class="mdl-button mdl-js-button mdl-button--icon">
           <i class="material-icons">more_vert</i>
         </button>
-        <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="detailsMenuLinks">
+        <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="menuLinks">
           ${menuList}
         </ul>
       </div>`
