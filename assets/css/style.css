@@ -28,11 +28,19 @@ html, body {
     width: 300px;
 }
 
-.mdl-card__actions {
+.flexActions {
     display: flex;
-    box-sizing:border-box;
+    position: relative;
+    flex-direction: row;
     align-items: center;
+    width: 100%;
+    box-sizing:border-box;
 }
+
+.mdl-list__item .mdl-list__item-primary-content .mdl-list__item-icon {
+    margin-right: 12px !important;
+}
+
 .mdl-card__actions > .mdl-button--icon {
     margin-right: 3px;
     margin-left: 3px;

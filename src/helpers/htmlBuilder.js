@@ -85,16 +85,18 @@ const Html = {
           ${detailsList}
         </ul>
       </div>
-      <div class="mdl-card__actions mdl-card--border">
-        <button id="detailsMenu" class="mdl-button mdl-js-button mdl-button--icon">
+      <div class="mdl-card__actions mdl-card--border flexActions">
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
+            onClick=Directions.get(${JSON.stringify(location)})>
+            Get Directions
+        </a>
+        <div class="mdl-layout-spacer"></div>
+        <button id="detailsMenuLinks" class="mdl-button mdl-js-button mdl-button--icon">
           <i class="material-icons">more_vert</i>
         </button>
-        <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="detailsMenu">
+        <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="detailsMenuLinks">
           ${menuList}
         </ul>
-        <div class="mdl-layout-spacer"></div>
-        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
-            onClick=Directions.get(${JSON.stringify(location)})>Get Directions</a>
       </div>`
 
     detailPanelDiv.innerHTML = ""
