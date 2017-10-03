@@ -18,7 +18,6 @@ const Html = {
 
   getPlacesItem: (data) => {
     const {
-      website,
       vicinity,
       formatted_address,
       formatted_phone_number,
@@ -32,9 +31,6 @@ const Html = {
     if (formatted_phone_number || international_phone_number) {
       _pushData(Html.getPhone(data), 'phone')
     }
-    if (website) {
-      _pushData(website, 'link')
-    }
     return placesData
   },
 
@@ -43,7 +39,7 @@ const Html = {
     let placesList = ''
     placesData.map(place => {
       placesList = `${placesList}
-      <li class="mdl-list__item detailsList">
+      <li class="mdl-list__item detailsListItem">
         <span class="mdl-list__item-primary-content mdl-card__supporting-text">
           <i class="material-icons mdl-list__item-icon">${place.icon}</i>
           ${place.details}
@@ -53,32 +49,52 @@ const Html = {
     return placesList
   },
 
+  createMenuLinkLists: (url, menuUrl, website) => {
+    let menuList = ''
+    let linkLists = []
+    if (url) linkLists.push({url: url, label: 'View in Google Map'})
+    if (website) linkLists.push({url: website, label: 'View Website'})
+    if (menuUrl) linkLists.push({url: menuUrl, label: 'View Menu / Food Specialty'})
+    linkLists.map(list => {
+      const { url, label } = list
+      menuList = `
+        ${menuList}
+        <li><a class="mdl-menu__item" href="${url}" target="_blank">${label}</a></li>
+      `
+    })
+    return menuList
+  },
+
   buildDetailsPanel: data => {
     const {
       url,
       name,
+      menuUrl,
+      website,
       geometry: { location }
     } = data
+    const menuList = Html.createMenuLinkLists(url, menuUrl, website)
     const detailsList = Html.placeListDetails(data)
     const detailPanelDiv = document.getElementById('detailPanel')
     const detailContent = `
       <div class="mdl-card__title">
         <h2 class="mdl-card__title-text">${name}</h2>
       </div>
-      <div class="mdl-card__supporting-text">
+      <div class="mdl-card__supporting-text detailsList">
        <ul class="mdl-list">
-           ${detailsList}
+          ${detailsList}
         </ul>
       </div>
       <div class="mdl-card__actions mdl-card--border">
-        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
-            href="${url}" target="_blank">More Details</a>
-        <div class="mdl-layout-spacer"></div>
-        <button id="directionIcon" class="mdl-button mdl-button--icon mdl-button--colored"
-          onClick=Directions.get(${JSON.stringify(location)})>
-          <i class="material-icons">directions</i>
-          <div class="mdl-tooltip" data-mdl-for="directionIcon">Get Directions</div>
+        <button id="detailsMenu" class="mdl-button mdl-js-button mdl-button--icon">
+          <i class="material-icons">more_vert</i>
         </button>
+        <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="detailsMenu">
+          ${menuList}
+        </ul>
+        <div class="mdl-layout-spacer"></div>
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
+            onClick=Directions.get(${JSON.stringify(location)})>Get Directions</a>
       </div>`
 
     detailPanelDiv.innerHTML = ""

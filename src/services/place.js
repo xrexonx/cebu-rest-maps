@@ -1,4 +1,5 @@
 import Marker from './marker'
+import Fetch from './fetch'
 import Html from '../helpers/htmlBuilder'
 import Const from '../constants/constant'
 
@@ -49,10 +50,26 @@ const Place = {
     }
   },
 
+  buildQueryParams: (location, name, vicinity) => {
+    const loc = JSON.parse(JSON.stringify(location))
+    return `q=${name} ${vicinity}&lat=${loc.lat}&lon=${loc.lng}`
+  },
+
+  getMenuUrl: (location, name) => {
+    const queryParams = Place.buildQueryParams(location, name)
+    const url = `${Const.zomato.API_SEARCH_URL}?${queryParams}`
+    return Fetch.searchRestaurants(encodeURI(url)).then(restaurant => restaurant.menu_url.split('?')[0])
+  },
+
   getPlaceDetails: placeId => {
     const _callback = place => {
-      Html.buildDetailsPanel(place)
-      Html.showDetailsPanel()
+      const { name, vicinity, geometry: { location } } = place
+      const menuUrlPs = Place.getMenuUrl(location, name, vicinity)
+      menuUrlPs.then(url => {
+        place.menuUrl = url
+        Html.buildDetailsPanel(place)
+        Html.showDetailsPanel()
+      })
     }
     Place.getDetails(placeId, _callback)
   },

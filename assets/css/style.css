@@ -39,5 +39,12 @@ html, body {
 }
 
 .detailsList {
+    font-size: 10pt !important;
+    width: 100% !important;
+    padding: 0 16px !important;
+}
+
+.detailsListItem {
     padding: 0 !important;
+    width: 100% !important;
 }
