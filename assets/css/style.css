@@ -49,10 +49,60 @@ html, body {
 .detailsList {
     font-size: 10pt !important;
     width: 100% !important;
-    padding: 0 16px !important;
+    padding: 0 !important;
 }
 
 .detailsListItem {
     padding: 0 !important;
     width: 100% !important;
 }
+
+.detailsListItem .mdl-list__item-primary-content {
+    padding: 0 16px;
+}
+
+.mdl-card__title-text {
+    font-size: 20px !important;
+}
+
+.visited {
+    margin: 10px 0 0 17px;
+}
+
+.visited .mdl-chip__contact {
+    height: 24px !important;
+    width: 30px !important;
+}
+
+.visited .mdl-chip {
+    height: 27px !important;
+    line-height: 28px !important;
+}
+
+    /* Review CSS*/
+.stars-outer {
+    display: inline-block;
+    position: relative;
+    margin-left: 17px;
+    font-size: 20px !important;
+    font-family: 'Material Icons';
+}
+
+.stars-outer::before {
+    content: "\E83A \E83A \E83A \E83A \E83A";
+}
+
+.stars-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+}
+
+.stars-inner::before {
+    content: "\E838 \E838 \E838 \E838 \E838";
+    color: #f8ce0b;
+}
+/* Review CSS*/

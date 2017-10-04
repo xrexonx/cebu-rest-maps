@@ -12,7 +12,7 @@ const Html = {
     return data.international_phone_number || data.formatted_phone_number
   },
 
-  getPlacesItem: (data) => {
+  getPlacesItem: data => {
     const {
       vicinity,
       formatted_address,
@@ -26,7 +26,7 @@ const Html = {
     return placesData
   },
 
-  placeListDetails: (data) => {
+  placeListDetails: data => {
     let placesData = Html.getPlacesItem(data)
     let placesList = ''
     placesData.map(place => {
@@ -57,21 +57,64 @@ const Html = {
     return menuList
   },
 
+  buildRatings: rating => {
+    const starTotal = 5
+    const starPercentage = (rating / starTotal) * 100
+    document.querySelector('.stars-inner').style.width = `${(Math.round(starPercentage / 10) * 10)}%`
+  },
+
+  buildVisitedCounts: (stats, hereNow) => {
+    const {count, summary} = hereNow || {count: 0, summary: 'Nobody is here'}
+    const {checkinsCount, usersCount, tipCount} = stats
+    let visitedCountLists = ''
+    let visitedLists = []
+    const _pushLists = (counts, label) => visitedLists.push({counts, label})
+    _pushLists(count, `${summary} now`)
+    if (usersCount) _pushLists(usersCount, 'Total people visited')
+    if (checkinsCount) _pushLists(checkinsCount, 'Total Checkins')
+    if (tipCount) _pushLists(tipCount, 'Total tip counts')
+    visitedLists.map((list, idx) => {
+      const { counts, label } = list
+      visitedCountLists = `${visitedCountLists}
+        <span id="${idx}-${counts}" class="mdl-chip mdl-chip--contact">
+          <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">
+            <i class="material-icons">people</i>
+          </span>
+          <span class="mdl-chip__text">${counts}</span>
+        </span>
+        <div class="mdl-tooltip" data-mdl-for="${idx}-${counts}">${label}</div>
+      `
+    })
+    return visitedCountLists
+  },
+
   buildDetailsPanel: data => {
     const {
       url,
       name,
+      stats,
+      rating,
       menuUrl,
       website,
+      hereNow,
       geometry: { location }
     } = data
-    const menuList = Html.createMenuLinkLists(url, menuUrl, website)
     const detailsList = Html.placeListDetails(data)
+    const menuList = Html.createMenuLinkLists(url, menuUrl, website)
+    const visitedCountsLists = stats
+      ? Html.buildVisitedCounts(stats, hereNow)
+      : ''
     const detailPanelDiv = document.getElementById('detailPanel')
     const detailContent = `
       <div class="mdl-card__title">
         <h2 class="mdl-card__title-text">${name}</h2>
       </div>
+      <div class="stars-outer">
+        <div class="stars-inner"></div>
+      </div>
+      <div class="visited">
+          ${visitedCountsLists}
+       </div>
       <div class="mdl-card__supporting-text detailsList">
        <ul class="mdl-list">
           ${detailsList}
@@ -95,11 +138,13 @@ const Html = {
     detailPanelDiv.innerHTML = detailContent
     // Upgrade newly added mdl id ad classes
     componentHandler.upgradeAllRegistered()
+
+    Html.buildRatings(rating)
   },
 
   buildInfoWindow: data => {
     const { place_id, name, geometry: { location } } = data
-    return ` 
+    return `
      <div class="infoWindow">
         <div class="mdl-card__title">
           <h2 class="mdl-card__title-text">${name}</h2>

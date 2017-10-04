@@ -45,31 +45,34 @@ const Place = {
   _handleCallBack: (place, status, pagination, callback) => {
     const statusOk = google.maps.places.PlacesServiceStatus.OK
     if (status === statusOk) {
-      if (pagination.hasNextPage) pagination.nextPage()
+      // if (pagination.hasNextPage) pagination.nextPage()
       callback(place)
     }
   },
 
-  buildQueryParams: (location, name, vicinity) => {
-    const loc = JSON.parse(JSON.stringify(location))
-    return `q=${name} ${vicinity}&lat=${loc.lat}&lon=${loc.lng}`
-  },
-
-  getMenuUrl: (location, name) => {
-    const queryParams = Place.buildQueryParams(location, name)
-    const url = `${Const.zomato.API_SEARCH_URL}?${queryParams}`
-    return Fetch.searchRestaurants(encodeURI(url)).then(restaurant => restaurant.menu_url.split('?')[0])
-  },
-
   getPlaceDetails: placeId => {
     const _callback = place => {
-      const { name, vicinity, geometry: { location } } = place
-      const menuUrlPs = Place.getMenuUrl(location, name, vicinity)
-      menuUrlPs.then(url => {
-        place.menuUrl = url
+
+      const { name, geometry: { location } } = place
+      const locStr = JSON.parse(JSON.stringify(location))
+
+      const _renderDetails = (place) => {
         Html.buildDetailsPanel(place)
         Html.showDetailsPanel()
-      })
+      }
+
+      Promise.all([
+        Fetch.zomatoSearch(name, locStr),
+        Fetch.fourSquareSearch(name, locStr)
+      ]).then(results => {
+        const [zomato, fs] = results
+        const {stats, hereNow} = fs[0]
+        place.stats = stats
+        place.hereNow = hereNow
+        place.menuUrl = zomato.menu_url
+        _renderDetails(place)
+      }).catch(() => _renderDetails(place))
+
     }
     Place.getDetails(placeId, _callback)
   },
