@@ -28,13 +28,13 @@ const Place = {
   },
 
   _buildAdvanceSearchQuery: (category) => {
-    return `restaurants|food|${category.toLowerCase()} in Cebu, PH`
+    return `${category.toLowerCase()} in Cebu, PH`
   },
 
   getRestaurantByCategory: (category, request) => {
     const _request = request || {
       location: Place.defaultLocation,
-      radius: 20000,
+      radius: 1000,
       type: 'restaurant',
       query: Place._buildAdvanceSearchQuery(category)
     }

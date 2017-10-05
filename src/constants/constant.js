@@ -3,14 +3,14 @@ const CONST = {
   categories: [
     'Burger',
     'Bar',
-    'Cafe',
+    // 'Cafe',
     'Pizza',
     'Lechon',
     'Barbecue',
     'Cafeteria',
     'Coffeehouse',
     'Buffet',
-    'French'
+    // 'French'
   ],
   cebuLatLng: {
     lat: 10.318548,
