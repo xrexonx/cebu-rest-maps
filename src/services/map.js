@@ -19,6 +19,8 @@ const Map = {
     Directions.init(map, defaultLocation)
     Map.setCurrentLocation()
     Map.infoWindow = new google.maps.InfoWindow()
+
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.querySelector('#drawingToolPanel'));
   },
 
   setCurrentLocation: () => {

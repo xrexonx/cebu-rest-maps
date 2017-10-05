@@ -24,6 +24,10 @@ html, body {
     width: 20px;
 }
 
+#drawingToolPanel {
+    margin-top: 2px;
+}
+
 .infoWindow {
     width: 300px;
 }
