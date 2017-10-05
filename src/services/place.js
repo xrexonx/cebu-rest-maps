@@ -45,7 +45,7 @@ const Place = {
   _handleCallBack: (place, status, pagination, callback) => {
     const statusOk = google.maps.places.PlacesServiceStatus.OK
     if (status === statusOk) {
-      // if (pagination.hasNextPage) pagination.nextPage()
+      if (pagination.hasNextPage) pagination.nextPage()
       callback(place)
     }
   },
