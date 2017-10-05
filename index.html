@@ -45,11 +45,23 @@
     <div id="rightPanel" class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--9-col mdl-cell--8-col-tablet">
         <div id="map"></div>
         <div id="drawingToolPanel">
-            <button id="tt2" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" onClick=Drawing.clear()>
+            <button id="cleaDrawing" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" onClick=Drawing.clear()>
                 <i class="icon material-icons">clear</i>
             </button>
+            <div class="mdl-tooltip" data-mdl-for="cleaDrawing">Clear Drawings</div>
+            <button id="viewAnalytics" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"
+                onclick="Place.viewAnalytics()">
+                <i class="material-icons">graphic_eq</i>
+            </button>
+            <div class="mdl-tooltip" data-mdl-for="viewAnalytics">View Analytics</div>
         </div>
-        <div class="mdl-tooltip" data-mdl-for="drawingToolPanel">Clear Drawings</div>
+        <div id="analyticsDiv" class="hide">
+            <button class="hideAnalytics mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"
+                    onClick=Place.hideAnalytics()>
+                <i class="material-icons">keyboard_backspace</i>
+            </button>
+            <div id="graph"></div>
+        </div>
     </div>
   </div>
   <div class="mdl-js-snackbar mdl-snackbar">
@@ -60,7 +72,8 @@
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBY05M8svkUl_xLuxyWVKuLOZ2mZRQaGOQ&libraries=places,drawing&region=PH">
   </script>
-<!-- AIzaSyBY05M8svkUl_xLuxyWVKuLOZ2mZRQaGOQ -->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <!-- AIzaSyBY05M8svkUl_xLuxyWVKuLOZ2mZRQaGOQ -->
 <!-- AIzaSyCXI92ZH6gRINBe_fj1kLXHBUdTfBr0Sww -->
 <!-- AIzaSyBgHbpYe4AAYP5ZElT54iBuRroTE5Fj8Sg -->
 </body>

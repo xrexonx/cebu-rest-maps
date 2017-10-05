@@ -45,7 +45,7 @@ const Place = {
   _handleCallBack: (place, status, pagination, callback) => {
     const statusOk = google.maps.places.PlacesServiceStatus.OK
     if (status === statusOk) {
-      if (pagination.hasNextPage) pagination.nextPage()
+      // if (pagination.hasNextPage) pagination.nextPage()
       callback(place)
     }
   },
@@ -76,6 +76,56 @@ const Place = {
     }
     Place.getDetails(placeId, _callback)
   },
+
+  hideAnalytics: () => {
+    document.querySelector('#map').style.display = 'block'
+    document.querySelector('#analyticsDiv').style.display = 'none'
+  },
+
+  viewAnalytics: () => {
+
+    document.querySelector('#map').style.display = 'none'
+    document.querySelector('#analyticsDiv').style.display = 'block'
+    document.querySelector('#graph').style.display = 'block'
+
+    const drawChart = () => {
+      // TODO: query real data...
+      const data = google.visualization.arrayToDataTable([
+        ['Category', 'Very Expensive', 'Expensive', 'Moderate', 'Inexpensive'],
+        ['Pizza', 39, 40, 20, 100],
+        ['Burger', 90, 46, 25, 10],
+        ['Lechon', 66, 75, 30, 5],
+        ['Barbecue', 88, 54, 35, 15]
+      ]);
+
+      const options = {
+        chart: {
+          title: 'Restaurant price level per category',
+        },
+        bars: 'horizontal'
+      };
+      const chart = new google.charts.Bar(document.querySelector('#graph'));
+      chart.draw(data, google.charts.Bar.convertOptions(options))
+    }
+
+    google.charts.load('current', {'packages':['bar']})
+    google.charts.setOnLoadCallback(drawChart)
+  },
+
+  // getAnalyticsByPriceLevel: (category, minPrice, maxPrice) => {
+  //   const _request = {
+  //     location: Place.defaultLocation,
+  //     radius: 1000,
+  //     type: 'restaurant',
+  //     minPriceLevel: minPrice,
+  //     maxPriceLevel: maxPrice,
+  //     query: Place._buildAdvanceSearchQuery(category)
+  //   }
+  //   const callback = places => {
+  //
+  //   }
+  //   Place.textSearch(_request, callback)
+  // },
 
   textSearch: (request, callback) => {
     Place.placeService.textSearch(request, (places, status, pagination) => Place._handleCallBack(places, status, pagination, callback))

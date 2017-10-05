@@ -110,3 +110,17 @@ html, body {
     color: #f8ce0b;
 }
 /* Review CSS*/
+
+#graph {
+    width: 900px;
+    height: 500px;
+    padding: 60px
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
