@@ -8,6 +8,7 @@ const Place = {
   map: null,
   placeService: null,
   defaultLocation: null,
+  results: {},
 
   categories: Const.categories,
 
@@ -38,21 +39,24 @@ const Place = {
       type: 'restaurant',
       query: Place._buildAdvanceSearchQuery(category)
     }
-    const callback = places => places.map(place => Marker.add(Place.map, place, category))
+    const callback = places => {
+      Place.results[category] = places
+      places.map(place => Marker.add(Place.map, place, category))
+    }
     Place.textSearch(_request, callback)
   },
 
   _handleCallBack: (place, status, pagination, callback) => {
     const statusOk = google.maps.places.PlacesServiceStatus.OK
     if (status === statusOk) {
-      // if (pagination.hasNextPage) pagination.nextPage()
+      if (pagination.hasNextPage) pagination.nextPage()
       callback(place)
     }
   },
 
   getPlaceDetails: placeId => {
-    const _callback = place => {
 
+    const _callback = place => {
       const { name, geometry: { location } } = place
       const locStr = JSON.parse(JSON.stringify(location))
 
@@ -89,43 +93,61 @@ const Place = {
     document.querySelector('#graph').style.display = 'block'
 
     const drawChart = () => {
-      // TODO: query real data...
-      const data = google.visualization.arrayToDataTable([
-        ['Category', 'Very Expensive', 'Expensive', 'Moderate', 'Inexpensive'],
-        ['Pizza', 39, 40, 20, 100],
-        ['Burger', 90, 46, 25, 10],
-        ['Lechon', 66, 75, 30, 5],
-        ['Barbecue', 88, 54, 35, 15]
-      ]);
-
+      const data = google.visualization.arrayToDataTable(Place.getAnalyticsByRating())
       const options = {
         chart: {
-          title: 'Restaurant price level per category',
+          title: 'Restaurants customer\'s ratings per food category',
+        },
+        hAxis: {
+          title: 'Total Restaurant counts',
         },
         bars: 'horizontal'
-      };
-      const chart = new google.charts.Bar(document.querySelector('#graph'));
+      }
+      const chart = new google.charts.Bar(document.querySelector('#graph'))
       chart.draw(data, google.charts.Bar.convertOptions(options))
     }
-
     google.charts.load('current', {'packages':['bar']})
     google.charts.setOnLoadCallback(drawChart)
   },
 
-  // getAnalyticsByPriceLevel: (category, minPrice, maxPrice) => {
-  //   const _request = {
-  //     location: Place.defaultLocation,
-  //     radius: 1000,
-  //     type: 'restaurant',
-  //     minPriceLevel: minPrice,
-  //     maxPriceLevel: maxPrice,
-  //     query: Place._buildAdvanceSearchQuery(category)
-  //   }
-  //   const callback = places => {
-  //
-  //   }
-  //   Place.textSearch(_request, callback)
-  // },
+  getAnalyticsByRating: () => {
+
+    const ratingsAnalytics = [
+      ['Restaurants Category', 'Five', 'Four', 'Three', 'Two', 'One']
+    ]
+    const one = []
+    const two = []
+    const three = []
+    const four = []
+    const five = []
+    // TODO: Move to helpers/utils
+    const _groupBy = (list, key) => list.reduce((rv, x) => {
+      (rv[x[key]] = rv[x[key]] || []).push(x)
+      return rv
+    }, {})
+
+    Object.keys(Place.results).map(cat => {
+      const category = Place.results[cat]
+      const groupedRatings = _groupBy(category, 'rating')
+      Object.keys(groupedRatings).map(rating => {
+        if (Math.round(rating) === 1) one.push(groupedRatings[rating])
+        if (Math.round(rating) === 2) two.push(groupedRatings[rating])
+        if (Math.round(rating) === 3) three.push(groupedRatings[rating])
+        if (Math.round(rating) === 4) four.push(groupedRatings[rating])
+        if (Math.round(rating) === 5) five.push(groupedRatings[rating])
+      })
+      ratingsAnalytics.push([
+        cat,
+        five.length,
+        four.length,
+        three.length,
+        two.length,
+        one.length,
+      ])
+    })
+
+    return ratingsAnalytics
+  },
 
   textSearch: (request, callback) => {
     Place.placeService.textSearch(request, (places, status, pagination) => Place._handleCallBack(places, status, pagination, callback))
