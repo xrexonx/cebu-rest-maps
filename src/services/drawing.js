@@ -50,10 +50,15 @@ const Drawing = {
   },
 
   onOverlayComplete: overlay => {
+    let placesFound = 0
     const bounds = overlay.getBounds()
     const markers = Marker.getMarkers()
-    const placesFound = markers.filter(marker => bounds.contains(marker.getPosition()))
-    Html.displayResultsCount(placesFound.length)
+    if (bounds && markers) {
+      markers.map(marker => {
+        if (bounds.contains(marker.getPosition()) && !!marker.visible) placesFound++
+      })
+      Html.displayResultsCount(placesFound)
+    }
   },
 
   clear: () => Drawing.shapes.map(overlay => overlay.setMap(null))
