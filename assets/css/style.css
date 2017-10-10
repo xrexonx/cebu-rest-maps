@@ -12,12 +12,27 @@ html, body {
     width: 100%
 }
 
+#leftPanel {
+    height: 100vh;
+}
+
+#analyticsDiv {
+    width: 100%;
+    overflow-y: scroll
+}
+
 #rightPanel {
   height: 100vh;
 }
 
 #directionsPanel {
+    padding: 20px;
     display: none;
+}
+
+#headerPanel {
+    margin-left: 20px;
+    margin-top: 10px;
 }
 
 #icons {
@@ -123,4 +138,52 @@ html, body {
 
 .show {
     display: block;
+}
+
+.demo-layout .mdl-layout__header .mdl-layout__drawer-button {
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.left-drawer {
+    border: none;
+}
+/* iOS Safari specific workaround */
+.left-drawer .mdl-menu__container {
+    z-index: -1;
+}
+.left-drawer .demo-navigation {
+    z-index: -2;
+}
+/* END iOS Safari specific workaround */
+.left-drawer .mdl-menu .mdl-menu__item {
+    display: flex;
+    align-items: center;
+}
+
+.demo-layout .demo-navigation .mdl-navigation__link:hover {
+    background-color: #00BCD4;
+    color: #37474F;
+}
+
+.demo-navigation .mdl-navigation__link .material-icons {
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.56);
+    margin-right: 32px;
+}
+
+.mdl-layout__drawer {
+    width: 350px;
+    transform: translateX(-350px)
+}
+.mdl-layout--fixed-drawer.is-upgraded:not(.is-small-screen)>.mdl-layout__header {
+    margin-left: 350px;
+    width: calc(100% - 350px);
+}
+.mdl-layout--fixed-drawer.is-upgraded:not(.is-small-screen)>.mdl-layout__content {
+    margin-left: 350px;
+    width: calc(100% - 350px);
+}
+
+.mdl-textfield__expandable-holder {
+    width: 400px;
 }

@@ -143,7 +143,7 @@ const Html = {
   },
 
   buildInfoWindow: data => {
-    const { place_id, name, geometry: { location } } = data
+    const { place_id, name } = data
     return `
      <div class="infoWindow">
         <div class="mdl-card__title">
@@ -156,10 +156,6 @@ const Html = {
           <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
             onClick=Place.getPlaceDetails("${place_id}")>
             Show Details
-          </a>
-          <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
-            onClick=Directions.get(${JSON.stringify(location)})>
-            Get Directions
           </a>
         </div>
       </div>`
@@ -199,6 +195,9 @@ const Html = {
   },
 
   showDetailsPanel: () => {
+    if (document.querySelector('.is-small-screen')) {
+      document.querySelector('.mdl-layout__drawer-button').click()
+    }
     document.getElementById('detailPanel').style.display = 'block'
   },
 

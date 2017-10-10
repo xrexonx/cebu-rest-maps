@@ -1,23 +1,47 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
     <title>Google Maps 101</title>
-    <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
-    <link rel="stylesheet" href="assets/css/style.css" media="screen">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-purple.min.css">
-    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-  <div class="content-grid mdl-grid">
-    <div id="leftPanel" class="mdl-shadow--2dp mdl-color--white mdl-grid mdl-cell mdl-cell--3-col
-        mdl-cell--8-col-tablet mdl-cell--8-col-phone">
+<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Cebu's Restaurants</span>
+            <div class="mdl-layout-spacer"></div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+                <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
+                    <i class="material-icons">search</i>
+                </label>
+                <div class="mdl-textfield__expandable-holder">
+                    <input class="mdl-textfield__input" id="search">
+                    <label class="mdl-textfield__label" for="search">Search places/restaurants..</label>
+                </div>
+            </div>
+            <button id="viewAnalytics" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"
+                    onclick="Place.viewAnalytics()">
+                <i class="material-icons">graphic_eq</i>
+            </button>
+            <div class="mdl-tooltip" data-mdl-for="viewAnalytics">View Analytics</div>
+            <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="headerActions">
+                <li class="mdl-menu__item" onClick=Drawing.clear()>Clear Drawings</li>
+                <li class="mdl-menu__item" onClick=Place.viewAnalytics()>View Analytics</li>
+            </ul>
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="headerActions">
+                <i class="material-icons">more_vert</i>
+            </button>
+        </div>
+    </header>
+    <div class="left-drawer mdl-layout__drawer">
         <div id="filterPanel">
             <div id="headerPanel">
-                <div class="mdl-card__title">
-                    <h2 class="mdl-card__title-text">Cebu's Restaurants</h2>
-                </div>
                 <div class="mdl-card__supporting-text">
                     <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkAll">
                         <input
@@ -40,20 +64,13 @@
             </button>
         </div>
     </div>
-
-    <!--Map Panel -->
-    <div id="rightPanel" class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--9-col mdl-cell--8-col-tablet">
+    <main class="mdl-layout__content">
         <div id="map"></div>
         <div id="drawingToolPanel">
             <button id="cleaDrawing" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" onClick=Drawing.clear()>
                 <i class="icon material-icons">clear</i>
             </button>
             <div class="mdl-tooltip" data-mdl-for="cleaDrawing">Clear Drawings</div>
-            <button id="viewAnalytics" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"
-                onclick="Place.viewAnalytics()">
-                <i class="material-icons">graphic_eq</i>
-            </button>
-            <div class="mdl-tooltip" data-mdl-for="viewAnalytics">View Analytics</div>
         </div>
         <div id="analyticsDiv" class="hide">
             <button class="hideAnalytics mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"
@@ -62,19 +79,22 @@
             </button>
             <div id="graph"></div>
         </div>
-    </div>
-  </div>
-  <div class="mdl-js-snackbar mdl-snackbar">
-      <div class="mdl-snackbar__text"></div>
-      <button class="mdl-snackbar__action" type="button"></button>
-  </div>
-  <script src="dist/bundle.js"></script>
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXI92ZH6gRINBe_fj1kLXHBUdTfBr0Sww&libraries=places,drawing&region=PH">
-  </script>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <!-- AIzaSyBY05M8svkUl_xLuxyWVKuLOZ2mZRQaGOQ -->
-<!-- AIzaSyCXI92ZH6gRINBe_fj1kLXHBUdTfBr0Sww -->
-<!-- AIzaSyBgHbpYe4AAYP5ZElT54iBuRroTE5Fj8Sg -->
+    </main>
+</div>
+<div class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
+</div>
+<script src="dist/bundle.js"></script>
+<script
+    async
+    defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgHbpYe4AAYP5ZElT54iBuRroTE5Fj8Sg&libraries=places,drawing&region=PH">
+</script>
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </body>
 </html>
+<!-- AIzaSyBY05M8svkUl_xLuxyWVKuLOZ2mZRQaGOQ -->
+<!-- AIzaSyCXI92ZH6gRINBe_fj1kLXHBUdTfBr0Sww -->
+<!-- AIzaSyBgHbpYe4AAYP5ZElT54iBuRroTE5Fj8Sg -->

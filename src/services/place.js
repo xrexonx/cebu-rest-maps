@@ -29,6 +29,9 @@ const Place = {
   },
 
   _buildAdvanceSearchQuery: (category) => {
+    if (category === 'Coffeehouse') {
+      category = `starbucks|coffee shops`
+    }
     return `${category.toLowerCase()} in Cebu, PH`
   },
 
@@ -36,7 +39,7 @@ const Place = {
     const _request = request || {
       location: Place.defaultLocation,
       radius: 1000,
-      type: 'restaurant',
+      type: ['restaurant', 'cafe', 'food'],
       query: Place._buildAdvanceSearchQuery(category)
     }
     const callback = places => {

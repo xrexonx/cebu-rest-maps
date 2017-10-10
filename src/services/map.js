@@ -1,6 +1,7 @@
 import Drawing from './drawing'
 import Place from './place'
 import Directions from './directions'
+import SearchBox from './searchbox'
 import Const from '../constants/constant'
 
 const Map = {
@@ -15,6 +16,7 @@ const Map = {
         zoom: 15
     })
     Drawing.init(map)
+    SearchBox.init(map)
     Place.init(map, defaultLocation)
     Directions.init(map, defaultLocation)
     Map.setCurrentLocation()
