@@ -15,7 +15,6 @@ const SearchBox = {
       if (!places.length) return
       markers.map(marker => marker.setMap(null))
       markers = []
-      console.log('places', places)
       places.map(place => {
         markers.push(new google.maps.Marker({
           map: map,
